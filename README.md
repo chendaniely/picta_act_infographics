@@ -1,0 +1,1 @@
+# picta_act_infographics
