@@ -2,6 +2,9 @@
 *.tex
 *.png
 
+shiny/www/graphical_elements_act
+shiny/rsconnect
+
 # History files
 .Rhistory
 .Rapp.history
