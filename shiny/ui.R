@@ -26,9 +26,9 @@ dashboardPage(
       )
     ),
     fluidRow(
-      box(height = "850px",
+      box(#height = "100%",
           width = 12,
-          imageOutput("plot")
+          imageOutput("plot", width = "100%")
       )
       
     ),
