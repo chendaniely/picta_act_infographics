@@ -1,5 +1,5 @@
 library(here)
-
+library(RCurl)
 library(ggplot2)
 
 dummy <- data.frame(x=c(0,100), y=c(0, 100)) # need this to actually show plot
@@ -17,5 +17,11 @@ arrow_x_25 <- 94.2
 
 arrow_x_all <- c(arrow_x_poor, arrow_x_16, arrow_x_notwell, arrow_x_20, arrow_x_well, arrow_x_25)
 
-image <- png::readPNG(here::here("./graphical_elements_act/ACT number line ENG - cropped.png"))
+png_url_english <- "./www/graphical_elements_act/ACT number line ENG - cropped.png"
+#png_img_english <- tempfile(fileext = ".png")
+#png_img_english
+#download.file(url = png_url_english,destfile =  png_img_english)
+
+image <- png::readPNG(png_url_english)
+
 base_image_g <- grid::rasterGrob(image, interpolate=TRUE)
