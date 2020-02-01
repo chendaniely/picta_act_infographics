@@ -231,8 +231,8 @@ server <- function(input, output, session) {
     }
     list(src = outfile,
          contentType = 'image/png',
-         width = "100%",
-         #height = 300,
+         #width = "100%",
+         height = 800,
          alt = "Alternative text")
   }, deleteFile = TRUE)
 }
