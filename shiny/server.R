@@ -50,19 +50,28 @@ server <- function(input, output, session) {
   }
   
   today_score_value <- function() {
-    annotate("text",
-             x = arrow_x_all[PT_INFO()$today_act],
-             y = PT_INFO()$score_today_numb_label_y,
-             size = 10,
-             label = PT_INFO()$today_act)
+    ggtext::geom_richtext(
+      aes(
+        x = arrow_x_all[PT_INFO()$today_act],
+        y = PT_INFO()$score_today_numb_label_y,
+        label = glue::glue("**{PT_INFO()$today_act}**")
+      ),
+      size = 10,
+      fill = NA, label.color = NA, # remove background and outline
+      label.padding = grid::unit(rep(0, 4), "pt") # remove padding
+    )
   }
   
   today_score_today <- function() {
-    annotate("text",
-             x = arrow_x_all[PT_INFO()$today_act],
-             y = PT_INFO()$score_today_text_label_y,
-             size = 4.5,
-             label = "Today")
+    ggtext::geom_richtext(aes(
+      x = arrow_x_all[PT_INFO()$today_act],
+      y = PT_INFO()$score_today_text_label_y,
+      label = "**Today**"
+    ),
+    size = 4.5,
+    fill = NA, label.color = NA, # remove background and outline
+    label.padding = grid::unit(rep(0, 4), "pt") # remove padding
+    )
   }
   
 
@@ -77,12 +86,16 @@ server <- function(input, output, session) {
   }
   
   previous_score_value <- function() {
-    annotate("text",
-             x = arrow_x_all[PT_INFO()$previous_act],
-             y = PT_INFO()$previous_score_today_numb_label_y,
-             size = 10,
-             color = "#939598",
-             label = PT_INFO()$previous_act)
+    ggtext::geom_richtext(aes(
+      x = arrow_x_all[PT_INFO()$previous_act],
+      y = PT_INFO()$previous_score_today_numb_label_y,
+      #color = "#939598",
+      label = glue::glue("<b style='color:#939598'>{PT_INFO()$previous_act}</b>")
+    ),
+    size = 10,
+    fill = NA, label.color = NA, # remove background and outline
+    label.padding = grid::unit(rep(0, 4), "pt") # remove padding
+    )
   }
   
   previous_score_date <- function() {
