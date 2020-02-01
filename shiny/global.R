@@ -2,6 +2,12 @@ library(here)
 
 library(ggplot2)
 
+dummy <- data.frame(x=c(0,100), y=c(0, 100)) # need this to actually show plot
+
+arrow_x_poor <- c( 8.7, 11.8, 14.9, 18.0, 21.1, # 5
+                   24.2, 27.3, 30.4, 33.5, 36.8, # 10
+                   40.5, 44.2, 47.9, 51.6, 55.3  # 15
+)
 
 arrow_x_16 <- 59.5
 arrow_x_notwell <- c(63.5, 67.2, 70.9)
