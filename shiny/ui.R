@@ -40,16 +40,12 @@ dashboardPage(
                 )
               ),
               fluidRow(
-                box(
+                box(width = 6,
+                    imageOutput("plot", width = "100%")
+                ),
+                box(width = 6,
                   verbatimTextOutput("asthma_statements")
                 )
-              ),
-              fluidRow(
-                box(#height = "100%",
-                  width = 12,
-                  imageOutput("plot", width = "100%")
-                )
-                
               )
       ),
       
