@@ -13,7 +13,7 @@
 
 \usepackage{graphicx}
 
-\graphicspath{{graphical_elements_act/}{../../graphical_elements_act/}}
+\graphicspath{{graphical_elements_act/}
 
 \begin{document}
 \pagenumbering{gobble}
