@@ -173,20 +173,25 @@ server <- function(input, output, session) {
       diff_arrow_buffer_y = .5
     )
     
+    if (is.na(PT_VALUES_ASTHMA$previous_act)) {
+      PT_VALUES_ASTHMA$previous_date_text <- ""
+      PT_VALUES_ASTHMA$asthma_progress_statment <- ""
+    } else {
+      previous_date_date <- as.Date(PT_VALUES_ASTHMA$previous_date)
+      PT_VALUES_ASTHMA$previous_date_text <- strftime(previous_date_date, "%m/%d/%y")
+      PT_VALUES_ASTHMA$asthma_progress_statment <- gen_asthma_progress_statment(PT_VALUES_ASTHMA$today_act,
+                                                                                PT_VALUES_ASTHMA$previous_act,
+                                                                                PT_VALUES_ASTHMA$language)
+    }
+    
     today_date_date <- as.Date(PT_VALUES_ASTHMA$today_date)
     PT_VALUES_ASTHMA$today_date_text <- strftime(today_date_date, "Date:  %B %d, %Y")
-    
-    previous_date_date <- as.Date(PT_VALUES_ASTHMA$previous_date)
-    PT_VALUES_ASTHMA$previous_date_text <- strftime(previous_date_date, "%m/%d/%y")
-    
+
     PT_VALUES_ASTHMA$asthma_score_statement <- sprintf("Your score is %s", PT_VALUES_ASTHMA$today_act)
     
-    PT_VALUES_ASTHMA$asthma_interpretive_statement <- gen_asthma_interpretive_statement_blob(PT_VALUES_ASTHMA$today_act, PT_VALUES_ASTHMA$language)
+    PT_VALUES_ASTHMA$asthma_interpretive_statement <- gen_asthma_interpretive_statement_blob(PT_VALUES_ASTHMA$today_act,
+                                                                                             PT_VALUES_ASTHMA$language)
 
-    PT_VALUES_ASTHMA$asthma_progress_statment <- gen_asthma_progress_statment(PT_VALUES_ASTHMA$today_act,
-                                                                              PT_VALUES_ASTHMA$previous_act,
-                                                                              PT_VALUES_ASTHMA$language)
-    
     PT_VALUES_ASTHMA
   })
   
@@ -233,7 +238,7 @@ server <- function(input, output, session) {
       today_score_value() +
       today_score_today()
     
-    if (!is.na(PT_INFO()$previous_act) || !is.na(PT_INFO()$previous_date)) {
+    if (!is.na(PT_INFO()$previous_act)) {
       # if there is a previous act value
       last_g <- arrow_g +
         previous_score_arrow() +
