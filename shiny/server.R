@@ -11,19 +11,31 @@ server <- function(input, output, session) {
       )
   }
   
-  gen_asthma_interpretive_statement_blob <- function(today_act_score) {
+  gen_asthma_interpretive_statement_blob <- function(today_act_score, language) {
     if (today_act_score %in% 5:15) {
-      return("very poorly controlled")
+      if (language == "spanish"){
+        return("Su asma está muy mal controlada")
+      } else {
+        return("Your asthma is very poorly controlled")
+      }
     } else if (today_act_score %in% 16:19) {
-      return("not well controlled")
+      if (language == "spanish") {
+        return("Su asma está mal controlada")
+      } else {
+        return("Your asthma is not well controlled")
+      }
     } else if (today_act_score %in% 20:25) {
-      return("well controlled")
+      if (language == "spanish") {
+        return("Su asma está bien controlada")
+      } else {
+        return("Your asthma is well controlled")
+      }
     } else {
       stop(sprintf("Invalid act score given. Expected 5-25, got %s", today_act_score))
     }
   }
-  
-  gen_asthma_progress_statment <- function(today_act_score, previous_act_score) {
+
+  gen_asthma_progress_statment <- function(today_act_score, previous_act_score, language) {
     if (previous_act_score - today_act_score >= 3) {
       return("It has gotten worse since your last visit.")
     } else if (today_act_score <= 19 && abs(previous_act_score - today_act_score) <= 2) {
@@ -128,23 +140,11 @@ server <- function(input, output, session) {
                  arrow = arrow(length = unit(PT_INFO()$previous_score_arrow_length_unit, "cm")))
   }
   
-  gen_asthma_interpretive_statement_blob <- function(today_act_score) {
-    if (today_act_score %in% 5:15) {
-      return("very poorly controlled")
-    } else if (today_act_score %in% 16:19) {
-      return("not well controlled")
-    } else if (today_act_score %in% 20:25) {
-      return("well controlled")
-    } else {
-      stop(sprintf("Invalid act score given. Expected 5-25, got %s", today_act_score))
-    }
-  }
-  
   PT_INFO <- reactive({
     PT_VALUES_ASTHMA <- list(
       language = input$language,
-      name = NA,
-      display_name = input$Name,
+      name = input$name,
+      display_name = input$name,
       today_act = input$today_act,
       today_date = input$today_date,
       today_date_text = NA,
@@ -181,33 +181,52 @@ server <- function(input, output, session) {
     
     PT_VALUES_ASTHMA$asthma_score_statement <- sprintf("Your score is %s", PT_VALUES_ASTHMA$today_act)
     
-    PT_VALUES_ASTHMA$asthma_interpretive_statement <- sprintf(
-      "Your asthma is %s",
-      gen_asthma_interpretive_statement_blob(PT_VALUES_ASTHMA$today_act)
-    )
-    
+    PT_VALUES_ASTHMA$asthma_interpretive_statement <- gen_asthma_interpretive_statement_blob(PT_VALUES_ASTHMA$today_act, PT_VALUES_ASTHMA$language)
+
     PT_VALUES_ASTHMA$asthma_progress_statment <- gen_asthma_progress_statment(PT_VALUES_ASTHMA$today_act,
-                                                                              PT_VALUES_ASTHMA$previous_act)
+                                                                              PT_VALUES_ASTHMA$previous_act,
+                                                                              PT_VALUES_ASTHMA$language)
     
     PT_VALUES_ASTHMA
   })
   
-  output$pt_list <- renderPrint({
-    PT_INFO()
+  output$asthma_statements <- renderPrint({
+    print(glue::glue("Interpretive: {PT_INFO()$asthma_interpretive_statement}"))
+    print(glue::glue("Progress: {PT_INFO()$asthma_progress_statment}"))
+    print(glue::glue("Score: {PT_INFO()$asthma_score_statment}"))
+  })
+  
+  output$pt_list <- renderPrint({PT_INFO()})
+  
+  output$cwd <- renderPrint({getwd()})
+  
+  output$plot_pth_debug <- renderPrint({
+    print(plot_pth_norm());
+    print(plot_pth_unix());
+    print(fig_pth_actexterior())
+  })
+  
+  plot_pth_norm <- reactive({fs::path_norm(tempfile(fileext = '.png'))})
+  plot_pth_unix <- reactive({gsub("\\\\", "/", plot_pth_norm())})
+  fig_pth_actexterior <- reactive({
+    eng_or_spa <- stringr::str_to_upper(ifelse(input$language == "english", "eng", "spa"))
+    return(glue::glue(
+      "./www/graphical_elements_act/ACT exterior {eng_or_spa}.png"
+    ))
   })
   
   output$plot <- renderImage({
-    outfile <- tempfile(fileext='.png')
+    outfile <- plot_pth_norm()
     
     base_g <- ggplot(data = dummy, aes(x = x, y = y)) +
       geom_point(alpha = 1/1000000000) +
       annotation_custom(base_image_g, xmin = -Inf, xmax = Inf, ymin = 20, ymax = Inf) +
       theme_nothing_text() +
       scale_x_continuous(breaks = seq(1, 100, by = 5), 1) +
-      theme(legend.position="none") +
+      theme(legend.position = "none") +
       theme(axis.title = element_blank(), axis.text = element_blank()) +
       theme(plot.title = element_text(size = 30, colour = "black")) +
-      theme(text=element_text(family="sans"))
+      theme(text = element_text(family = "sans"))
     
     arrow_g <- base_g +
       today_score_arrow() +
@@ -233,13 +252,13 @@ server <- function(input, output, session) {
       
       ggplot2::ggsave(filename =  outfile,
                      plot = last_g,
-                     width = 11, height=8.5)
+                     width = 11, height = 8.5)
       #last_g
     } else {
       # no previous value provided
       ggplot2::ggsave(filename =  outfile,
                      plot = arrow_g,
-                     width = 11, height=8.5)
+                     width = 11, height = 8.5)
       #arrow_g
     }
     list(src = outfile,
@@ -247,5 +266,20 @@ server <- function(input, output, session) {
          width = "100%",
          #height = "100%",
          alt = "Alternative text")
-  }, deleteFile = TRUE)
+  }, deleteFile = FALSE
+  )
+  
+  output$download_single <- downloadHandler(
+    filename = glue::glue("act.pdf"),
+    
+    content = function(file) {
+      out = knitr::knit2pdf(input = "act-pamphlet_interrior-english.Rnw",
+                             #output = glue::glue("{input$name}-{input$today_date}.tex"),
+                             clean = TRUE,
+                             compiler = "xelatex")
+      file.rename(out, file) # move pdf to file for downloading
+    },
+    
+    contentType = 'application/pdf'
+  )
 }

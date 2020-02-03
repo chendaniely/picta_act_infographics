@@ -5,7 +5,7 @@ dashboardPage(
   dashboardSidebar(
     sidebarMenu(
       menuItem("Single Image", tabName = "single_image", icon = icon("dice-one")),
-      menuItem("Batch File", tabName = "batch_file", icon = icon("table")),
+      #menuItem("Batch File", tabName = "batch_file", icon = icon("table")),
       menuItem("Debug", tabName = "debug", icon = icon("bug"))
     )
   ),
@@ -19,7 +19,7 @@ dashboardPage(
                   selectInput("language", label = h3("Language"), 
                               choices = list("English" = "english", "Spanish" = "spanish"), 
                               selected = "english"),
-                  textInput("Name", label = h3("Name"), value = "Enter name ...")
+                  textInput("name", label = h3("Name"), value = "", placeholder = "Enter name ...")
                 ),
                 
                 box(
@@ -31,6 +31,17 @@ dashboardPage(
                   width = 4,
                   dateInput("previous_date", label = h3("Previous date"), value = Sys.Date()),
                   numericInput("previous_act", label = h3("Previous ACT"), value = 5),
+                )
+              ),
+              fluidRow(
+                box(
+                  width = 3,
+                  downloadButton('download_single', label = "Download PDF")
+                )
+              ),
+              fluidRow(
+                box(
+                  verbatimTextOutput("asthma_statements")
                 )
               ),
               fluidRow(
@@ -47,6 +58,10 @@ dashboardPage(
               fluidRow(
                 box(title = "Debug Info",
                     verbatimTextOutput("pt_list")
+                ),
+                box(
+                  verbatimTextOutput("cwd"),
+                  verbatimTextOutput("plot_pth_debug")
                 )
               )
       )

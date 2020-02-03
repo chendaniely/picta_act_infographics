@@ -1,0 +1,71 @@
+\documentclass[letterpaper, 12pt]{article}
+
+\usepackage[landscape,
+            left=0.5in,
+            right=0.5in,
+            top=0.5in,
+            bottom=0.5in
+            ]{geometry}
+
+\usepackage{fontspec}
+\defaultfontfeatures{Scale = MatchLowercase}
+\setmainfont{Arial}[Scale = 1.0]
+
+\usepackage{graphicx}
+
+\graphicspath{{graphical_elements_act/}{../../graphical_elements_act/}}
+
+\begin{document}
+\pagenumbering{gobble}
+
+<<echo=FALSE, warning=FALSE, message=FALSE>>=
+library(knitr)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+@
+
+<<>>=
+library(ggplot2)
+library(png)
+library(extrafont)
+@
+
+<<>>=
+
+PT_VALUES_ASTHMA <- PT_INFO()
+# PT_VALUES_ASTHMA
+@
+
+\noindent\fontsize{12}{12}\selectfont \textbf{\Sexpr{stringr::str_to_upper(PT_VALUES_ASTHMA$display_name)}'S LEVEL OF ASTHMA CONTROL}
+
+% interpretive statement
+\vspace{12pt}
+\noindent\hspace{0.75in}\noindent\fontsize{22}{22}\selectfont \textbf{\Sexpr{PT_VALUES_ASTHMA$asthma_interpretive_statement}}
+
+% score statement
+\vspace{12pt}
+\noindent\hspace{0.75in}\noindent\fontsize{22}{22}\selectfont \Sexpr{PT_VALUES_ASTHMA$asthma_score_statement}
+
+% progress statement
+\noindent\hspace{0.75in}\noindent\fontsize{22}{22}\selectfont \Sexpr{PT_VALUES_ASTHMA$asthma_progress_statment}
+
+\begin{figure}[h!b]
+    \begin{center}
+    % trim = left bottom right top
+    \includegraphics[trim=0 70 0 120, clip,width=\textwidth]{\Sexpr{plot_pth_unix()}}
+    \end{center}
+\end{figure}
+
+\vfill \hfill \noindent\fontsize{14}{14}\selectfont \Sexpr{PT_VALUES_ASTHMA$today_date_text}
+
+\newpage
+
+\begin{figure}[h!b]
+    \begin{center}
+    % trim = left bottom right top
+    \includegraphics[width=\textwidth]{\Sexpr{fig_pth_actexterior()}}
+    \end{center}
+\end{figure}
+
+
+
+\end{document}
