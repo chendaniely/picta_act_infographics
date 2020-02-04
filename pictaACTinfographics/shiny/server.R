@@ -90,11 +90,11 @@ server <- function(input, output, session) {
     )
   }
   
-  today_score_today <- function() {
+  today_score_today <- function(language) {
     ggtext::geom_richtext(aes(
       x = arrow_x_all[PT_INFO()$today_act],
       y = PT_INFO()$score_today_text_label_y,
-      label = "**Today**"
+      label = ifelse(language == "spanish", "**Hoy**", "**Today**")
     ),
     size = 4.5,
     fill = NA, label.color = NA, # remove background and outline
@@ -126,13 +126,13 @@ server <- function(input, output, session) {
     )
   }
   
-  previous_score_date <- function() {
+  previous_score_date <- function(language) {
     annotate("text",
              x = arrow_x_all[PT_INFO()$previous_act],
              y = PT_INFO()$previous_score_today_text_label_y,
              size = 4.5,
              color = "#939598",
-             label = sprintf("Last visit\n%s", PT_INFO()$previous_date_text))
+             label = glue::glue("{ifelse(language == 'spanish', 'Última Visita','Last visit')}\n{PT_INFO()$previous_date_text}"))
   }
   
   diff_arrow_pos_right <- function() {
@@ -252,14 +252,14 @@ server <- function(input, output, session) {
     arrow_g <- base_g +
       today_score_arrow() +
       today_score_value() +
-      today_score_today()
+      today_score_today(PT_INFO()$language)
     
     if (!is.na(PT_INFO()$previous_act)) {
       # if there is a previous act value
       last_g <- arrow_g +
         previous_score_arrow() +
         previous_score_value() +
-        previous_score_date()
+        previous_score_date(PT_INFO()$language)
       
       if (PT_INFO()$today_act - PT_INFO()$previous_act > 0) {
         last_g <- last_g + diff_arrow_pos_right()
