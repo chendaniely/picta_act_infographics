@@ -7,7 +7,7 @@ server <- function(input, output, session) {
       theme(
         rect              = element_blank(),
         line              = element_blank(),
-        axis.ticks.margin = unit(0, "lines")
+        axis.ticks        = element_blank()
       )
   }
   
