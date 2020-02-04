@@ -303,4 +303,9 @@ server <- function(input, output, session) {
     
     contentType = 'application/pdf'
   )
+  
+  output$tinytex_info <- renderPrint({
+    print(tinytex:::is_tinytex())
+    print(tinytex::tinytex_root())
+  })
 }

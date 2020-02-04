@@ -52,12 +52,13 @@ dashboardPage(
       # Second tab content
       tabItem(tabName = "debug",
               fluidRow(
-                box(title = "Debug Info",
+                box(title = "PT Info",
                     verbatimTextOutput("pt_list")
                 ),
-                box(
-                  verbatimTextOutput("cwd"),
-                  verbatimTextOutput("plot_pth_debug")
+                box(title = "R Session Info",
+                    verbatimTextOutput("cwd"),
+                    verbatimTextOutput("tinytex_info"),
+                    verbatimTextOutput("plot_pth_debug")
                 )
               )
       )
