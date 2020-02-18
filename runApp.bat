@@ -1,2 +1,2 @@
-C:\"Program Files"\R\R-3.6.2\bin\Rscript.exe -e "shiny::runApp('pictaACTinfographics/shiny/', launch.browser = TRUE)"
+"Rscript.exe - Shortcut.lnk" -e "getwd(); shiny::runApp('pictaACTinfographics\\pictaACTinfographics\\shiny', launch.browser = TRUE)"
 @PAUSE

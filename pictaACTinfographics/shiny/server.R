@@ -13,7 +13,7 @@ server <- function(input, output, session) {
   
   gen_asthma_interpretive_statement_blob <- function(today_act_score, language) {
     if (today_act_score %in% 5:15) {
-      if (language == "spanish"){
+      if (language == "spanish") {
         return("Su asma está muy mal controlada")
       } else {
         return("Your asthma is very poorly controlled")
@@ -221,19 +221,19 @@ server <- function(input, output, session) {
   
   output$cwd <- renderPrint({getwd()})
   
-  output$plot_pth_debug <- renderPrint({
-    print(plot_pth_norm());
-    print(plot_pth_unix());
-    print(fig_pth_actexterior())
-  })
-  
   plot_pth_norm <- reactive({fs::path_norm(tempfile(fileext = '.png'))})
   plot_pth_unix <- reactive({gsub("\\\\", "/", plot_pth_norm())})
-  fig_pth_actexterior <- reactive({
+  fig_pth_act_exterior <- reactive({
     eng_or_spa <- stringr::str_to_upper(ifelse(input$language == "english", "eng", "spa"))
     return(glue::glue(
       "./www/graphical_elements_act/ACT exterior {eng_or_spa}.png"
     ))
+  })
+  
+  output$plot_pth_debug <- renderPrint({
+    print(plot_pth_norm());
+    print(plot_pth_unix());
+    print(fig_pth_act_exterior())
   })
   
   output$plot <- renderImage({
@@ -305,7 +305,7 @@ server <- function(input, output, session) {
   )
   
   output$tinytex_info <- renderPrint({
-    print(tinytex:::is_tinytex())
-    print(tinytex::tinytex_root())
+    #print(tinytex:::is_tinytex())
+    #print(tinytex::tinytex_root())
   })
 }
