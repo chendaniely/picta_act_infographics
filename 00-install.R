@@ -1,4 +1,4 @@
 install.packages(c('ggplot2', 'png', 'extrafont', 'knitr', 'rmarkdown', 'shiny', 'shinydashboard', 'tinytex', 'here', 'RCurl', 'devtools', 'remotes'), repo = 'https://cloud.r-project.org/')
-remotes::remotes::install_github('wilkelab/ggtext')
+remotes::install_github('wilkelab/ggtext')
 tinytex::install_tinytex()
 tinytex:::install_yihui_pkgs()
