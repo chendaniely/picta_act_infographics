@@ -250,15 +250,15 @@ server <- function(input, output, session) {
       theme(text = element_text(family = "sans"))
     
     arrow_g <- base_g +
-      today_score_arrow() +
-      today_score_value() +
-      today_score_today(PT_INFO()$language)
+      today_score_arrow() #+
+      #today_score_value() +
+      #today_score_today(PT_INFO()$language)
     
     if (!is.na(PT_INFO()$previous_act)) {
       # if there is a previous act value
       last_g <- arrow_g +
         previous_score_arrow() +
-        previous_score_value() +
+        #previous_score_value() +
         previous_score_date(PT_INFO()$language)
       
       if (PT_INFO()$today_act - PT_INFO()$previous_act > 0) {
