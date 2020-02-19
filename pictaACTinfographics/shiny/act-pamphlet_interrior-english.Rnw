@@ -62,7 +62,7 @@ PT_VALUES_ASTHMA <- PT_INFO()
 \begin{figure}[h!b]
     \begin{center}
     % trim = left bottom right top
-    \includegraphics[width=\textwidth]{\Sexpr{fig_pth_actexterior()}}
+    \includegraphics[width=\textwidth]{\Sexpr{fig_pth_act_exterior()}}
     \end{center}
 \end{figure}
 
