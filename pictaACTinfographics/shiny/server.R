@@ -78,28 +78,40 @@ server <- function(input, output, session) {
   }
   
   today_score_value <- function() {
-    ggtext::geom_richtext(
-      aes(
-        x = arrow_x_all[PT_INFO()$today_act],
-        y = PT_INFO()$score_today_numb_label_y,
-        label = glue::glue("**{PT_INFO()$today_act}**")
-      ),
-      size = 10,
-      fill = NA, label.color = NA, # remove background and outline
-      label.padding = grid::unit(rep(0, 4), "pt") # remove padding
-    )
+    # ggtext::geom_richtext(
+    #   aes(
+    #     x = arrow_x_all[PT_INFO()$today_act],
+    #     y = PT_INFO()$score_today_numb_label_y,
+    #     label = glue::glue("**{PT_INFO()$today_act}**")
+    #   ),
+    #   size = 10,
+    #   fill = NA, label.color = NA, # remove background and outline
+    #   label.padding = grid::unit(rep(0, 4), "pt") # remove padding
+    # )
+    ggplot2::annotate("text",
+                      x = arrow_x_all[PT_INFO()$today_act],
+                      y = PT_INFO()$score_today_numb_label_y,
+                      label = glue::glue("{PT_INFO()$today_act}"),
+                      size = 10,
+                      fontface = "bold")
   }
-  
+
   today_score_today <- function(language) {
-    ggtext::geom_richtext(aes(
-      x = arrow_x_all[PT_INFO()$today_act],
-      y = PT_INFO()$score_today_text_label_y,
-      label = ifelse(language == "spanish", "**Hoy**", "**Today**")
-    ),
-    size = 4.5,
-    fill = NA, label.color = NA, # remove background and outline
-    label.padding = grid::unit(rep(0, 4), "pt") # remove padding
-    )
+    # ggtext::geom_richtext(aes(
+    #   x = arrow_x_all[PT_INFO()$today_act],
+    #   y = PT_INFO()$score_today_text_label_y,
+    #   label = ifelse(language == "spanish", "**Hoy**", "**Today**")
+    # ),
+    # size = 4.5,
+    # fill = NA, label.color = NA, # remove background and outline
+    # label.padding = grid::unit(rep(0, 4), "pt") # remove padding
+    # )
+    ggplot2::annotate("text",
+                      x = arrow_x_all[PT_INFO()$today_act],
+                      y = PT_INFO()$score_today_text_label_y,
+                      label = ifelse(language == "spanish", "Hoy", "Today"),
+                      size = 4.5,
+                      fontface = "bold")
   }
   
 
@@ -114,16 +126,23 @@ server <- function(input, output, session) {
   }
   
   previous_score_value <- function() {
-    ggtext::geom_richtext(aes(
-      x = arrow_x_all[PT_INFO()$previous_act],
-      y = PT_INFO()$previous_score_today_numb_label_y,
-      #color = "#939598",
-      label = glue::glue("<b style='color:#939598'>{PT_INFO()$previous_act}</b>")
-    ),
-    size = 10,
-    fill = NA, label.color = NA, # remove background and outline
-    label.padding = grid::unit(rep(0, 4), "pt") # remove padding
-    )
+    # ggtext::geom_richtext(aes(
+    #   x = arrow_x_all[PT_INFO()$previous_act],
+    #   y = PT_INFO()$previous_score_today_numb_label_y,
+    #   #color = "#939598",
+    #   label = glue::glue("<b style='color:#939598'>{PT_INFO()$previous_act}</b>")
+    # ),
+    # size = 10,
+    # fill = NA, label.color = NA, # remove background and outline
+    # label.padding = grid::unit(rep(0, 4), "pt") # remove padding
+    # )
+    ggplot2::annotate("text",
+                      x = arrow_x_all[PT_INFO()$previous_act],
+                      y = PT_INFO()$previous_score_today_numb_label_y,
+                      label = glue::glue("{PT_INFO()$previous_act}"),
+                      color = "#939598",
+                      size = 10,
+                      fontface = "bold")
   }
   
   previous_score_date <- function(language) {
@@ -250,15 +269,15 @@ server <- function(input, output, session) {
       theme(text = element_text(family = "sans"))
     
     arrow_g <- base_g +
-      today_score_arrow() #+
-      #today_score_value() +
-      #today_score_today(PT_INFO()$language)
+      today_score_arrow() +
+      today_score_value() +
+      today_score_today(PT_INFO()$language)
     
     if (!is.na(PT_INFO()$previous_act)) {
       # if there is a previous act value
       last_g <- arrow_g +
         previous_score_arrow() +
-        #previous_score_value() +
+        previous_score_value() +
         previous_score_date(PT_INFO()$language)
       
       if (PT_INFO()$today_act - PT_INFO()$previous_act > 0) {
