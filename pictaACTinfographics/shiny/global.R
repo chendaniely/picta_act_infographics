@@ -3,6 +3,8 @@ library(RCurl)
 library(ggplot2)
 #library(ggtext)
 library(shiny)
+library(readr)
+library(DT)
 
 dummy <- data.frame(x=c(0,100), y=c(0, 100)) # need this to actually show plot
 

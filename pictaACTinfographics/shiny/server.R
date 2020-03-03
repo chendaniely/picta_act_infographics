@@ -328,5 +328,27 @@ server <- function(input, output, session) {
     #print(tinytex::tinytex_root())
   })
   
-  output$batch_file_pth <- renderPrint({str(input$file)})
+  # batch file ----
+  input_file <- reactive({input$file})
+  output$batch_file_pth <- renderPrint({str(input_file())})
+  
+  input_file_df <- reactive({
+    if (!is.null(input_file())) {
+      batch_df <- readr::read_csv(input_file()$datapath)
+      print(head(batch_df))
+      return(batch_df)
+    } else {
+      empty_df <- data.frame(id_file = NA,
+                             display_name = NA,
+                             language = NA,
+                             today_date = NA,
+                             today_act_score = NA,
+                             previous_date = NA,
+                             previous_act_score = NA)
+      print(empty_df)
+      return(empty_df)
+    }
+  })
+
+  output$table <- DT::renderDT(input_file_df())
 }

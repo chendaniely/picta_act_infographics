@@ -54,10 +54,16 @@ dashboardPage(
                 box(
                   width = 4,
                   fileInput("file", label = h3("Batch file input")),
+                  actionButton("action", label = "Generate batch files")
                 ),
                 box(
                   width = 8,
                   verbatimTextOutput("batch_file_pth"),
+                )
+              ),
+              fluidRow(
+                column(12,
+                       DT::DTOutput('table')
                 )
               )
       ),
