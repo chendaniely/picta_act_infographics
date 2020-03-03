@@ -35,7 +35,7 @@ dashboardPage(
               ),
               fluidRow(
                 box(
-                  width = 3,
+                  width = 4,
                   downloadButton('download_single', label = "Download PDF")
                 )
               ),
@@ -77,7 +77,8 @@ dashboardPage(
                 box(title = "R Session Info",
                     verbatimTextOutput("cwd"),
                     verbatimTextOutput("tinytex_info"),
-                    verbatimTextOutput("plot_pth_debug")
+                    verbatimTextOutput("plot_pth_debug"),
+                    verbatimTextOutput("pdf_single_fn")
                 )
               )
       )

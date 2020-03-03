@@ -21,6 +21,23 @@ arrow_x_25 <- 94.2
 
 arrow_x_all <- c(arrow_x_poor, arrow_x_16, arrow_x_notwell, arrow_x_20, arrow_x_well, arrow_x_25)
 
+score_arrow_y1 = 38
+score_arrow_y2 = 41.5
+score_arrow_size = 1.0
+score_arrow_length_unit = 0.25
+score_today_numb_label_y = 35
+score_today_text_label_y = 31.5
+
+previous_score_arrow_y1 = 25
+previous_score_arrow_y2 = 41.5
+previous_score_arrow_size = 1.0
+previous_score_arrow_length_unit = 0.25
+previous_score_today_numb_label_y = 22
+previous_score_today_text_label_y = 16.5
+
+diff_arrow_buffer_x = 1
+diff_arrow_buffer_y = .5
+
 png_url_english <- "./www/graphical_elements_act/ACT number line ENG - cropped.png"
 #png_img_english <- tempfile(fileext = ".png")
 #png_img_english

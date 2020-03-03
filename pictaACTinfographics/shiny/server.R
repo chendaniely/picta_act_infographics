@@ -70,18 +70,18 @@ server <- function(input, output, session) {
   
   today_score_arrow <- function() {
     geom_segment(aes(x = arrow_x_all[PT_INFO()$today_act],
-                     y = PT_INFO()$score_arrow_y1,
+                     y = score_arrow_y1,
                      xend = arrow_x_all[PT_INFO()$today_act],
-                     yend = PT_INFO()$score_arrow_y2),
-                 size = PT_INFO()$score_arrow_size,
-                 arrow = arrow(length = unit(PT_INFO()$score_arrow_length_unit, "cm")))
+                     yend = score_arrow_y2),
+                 size = score_arrow_size,
+                 arrow = arrow(length = unit(score_arrow_length_unit, "cm")))
   }
   
   today_score_value <- function() {
     # ggtext::geom_richtext(
     #   aes(
     #     x = arrow_x_all[PT_INFO()$today_act],
-    #     y = PT_INFO()$score_today_numb_label_y,
+    #     y = score_today_numb_label_y,
     #     label = glue::glue("**{PT_INFO()$today_act}**")
     #   ),
     #   size = 10,
@@ -90,7 +90,7 @@ server <- function(input, output, session) {
     # )
     ggplot2::annotate("text",
                       x = arrow_x_all[PT_INFO()$today_act],
-                      y = PT_INFO()$score_today_numb_label_y,
+                      y = score_today_numb_label_y,
                       label = glue::glue("{PT_INFO()$today_act}"),
                       size = 10,
                       fontface = "bold")
@@ -99,7 +99,7 @@ server <- function(input, output, session) {
   today_score_today <- function(language) {
     # ggtext::geom_richtext(aes(
     #   x = arrow_x_all[PT_INFO()$today_act],
-    #   y = PT_INFO()$score_today_text_label_y,
+    #   y = score_today_text_label_y,
     #   label = ifelse(language == "spanish", "**Hoy**", "**Today**")
     # ),
     # size = 4.5,
@@ -108,7 +108,7 @@ server <- function(input, output, session) {
     # )
     ggplot2::annotate("text",
                       x = arrow_x_all[PT_INFO()$today_act],
-                      y = PT_INFO()$score_today_text_label_y,
+                      y = score_today_text_label_y,
                       label = ifelse(language == "spanish", "Hoy", "Today"),
                       size = 4.5,
                       fontface = "bold")
@@ -117,18 +117,18 @@ server <- function(input, output, session) {
 
   previous_score_arrow <- function() {
     geom_segment(aes(x = arrow_x_all[PT_INFO()$previous_act],
-                     y = PT_INFO()$previous_score_arrow_y1,
+                     y = previous_score_arrow_y1,
                      xend = arrow_x_all[PT_INFO()$previous_act],
-                     yend = PT_INFO()$previous_score_arrow_y2),
-                 size = PT_INFO()$previous_score_arrow_size,
+                     yend = previous_score_arrow_y2),
+                 size = previous_score_arrow_size,
                  color = "#939598",
-                 arrow = arrow(length = unit(PT_INFO()$previous_score_arrow_length_unit, "cm")))
+                 arrow = arrow(length = unit(previous_score_arrow_length_unit, "cm")))
   }
   
   previous_score_value <- function() {
     # ggtext::geom_richtext(aes(
     #   x = arrow_x_all[PT_INFO()$previous_act],
-    #   y = PT_INFO()$previous_score_today_numb_label_y,
+    #   y = previous_score_today_numb_label_y,
     #   #color = "#939598",
     #   label = glue::glue("<b style='color:#939598'>{PT_INFO()$previous_act}</b>")
     # ),
@@ -138,7 +138,7 @@ server <- function(input, output, session) {
     # )
     ggplot2::annotate("text",
                       x = arrow_x_all[PT_INFO()$previous_act],
-                      y = PT_INFO()$previous_score_today_numb_label_y,
+                      y = previous_score_today_numb_label_y,
                       label = glue::glue("{PT_INFO()$previous_act}"),
                       color = "#939598",
                       size = 10,
@@ -148,38 +148,38 @@ server <- function(input, output, session) {
   previous_score_date <- function(language) {
     annotate("text",
              x = arrow_x_all[PT_INFO()$previous_act],
-             y = PT_INFO()$previous_score_today_text_label_y,
+             y = previous_score_today_text_label_y,
              size = 4.5,
              color = "#939598",
              label = glue::glue("{ifelse(language == 'spanish', 'Última Visita','Last visit')}\n{PT_INFO()$previous_date_text}"))
   }
   
   diff_arrow_pos_right <- function() {
-    geom_segment(aes(x = arrow_x_all[PT_INFO()$previous_act] + PT_INFO()$diff_arrow_buffer_x,
-                     y = PT_INFO()$previous_score_arrow_y2 - PT_INFO()$diff_arrow_buffer_y,
-                     xend = arrow_x_all[PT_INFO()$today_act] - PT_INFO()$diff_arrow_buffer_x,
-                     yend = PT_INFO()$previous_score_arrow_y2 - PT_INFO()$diff_arrow_buffer_y),
-                 size = PT_INFO()$previous_score_arrow_size,
+    geom_segment(aes(x = arrow_x_all[PT_INFO()$previous_act] + diff_arrow_buffer_x,
+                     y = previous_score_arrow_y2 - diff_arrow_buffer_y,
+                     xend = arrow_x_all[PT_INFO()$today_act] - diff_arrow_buffer_x,
+                     yend = previous_score_arrow_y2 - diff_arrow_buffer_y),
+                 size = previous_score_arrow_size,
                  color = "#939598",
-                 arrow = arrow(length = unit(PT_INFO()$previous_score_arrow_length_unit, "cm")))
+                 arrow = arrow(length = unit(previous_score_arrow_length_unit, "cm")))
   }
   
   diff_arrow_neg_left <- function() {
     # only difference here is how the diff arrow buffer is subtracted/added on the x axis
-    geom_segment(aes(x = arrow_x_all[PT_INFO()$previous_act] - PT_INFO()$diff_arrow_buffer_x,
-                     y = PT_INFO()$previous_score_arrow_y2 - PT_INFO()$diff_arrow_buffer_y,
-                     xend = arrow_x_all[PT_INFO()$today_act] + PT_INFO()$diff_arrow_buffer_x,
-                     yend = PT_INFO()$previous_score_arrow_y2 - PT_INFO()$diff_arrow_buffer_y),
-                 size = PT_INFO()$previous_score_arrow_size,
+    geom_segment(aes(x = arrow_x_all[PT_INFO()$previous_act] - diff_arrow_buffer_x,
+                     y = previous_score_arrow_y2 - diff_arrow_buffer_y,
+                     xend = arrow_x_all[PT_INFO()$today_act] + diff_arrow_buffer_x,
+                     yend = previous_score_arrow_y2 - diff_arrow_buffer_y),
+                 size = previous_score_arrow_size,
                  color = "#939598",
-                 arrow = arrow(length = unit(PT_INFO()$previous_score_arrow_length_unit, "cm")))
+                 arrow = arrow(length = unit(previous_score_arrow_length_unit, "cm")))
   }
   
   PT_INFO <- reactive({
     PT_VALUES_ASTHMA <- list(
       language = input$language,
       name = input$name,
-      display_name = input$name,
+      display_name = input$name, # name and display name are coming from the same input
       today_act = input$today_act,
       today_date = input$today_date,
       today_date_text = NA,
@@ -188,24 +188,7 @@ server <- function(input, output, session) {
       previous_date_text = NA,
       asthma_interpretive_statement = NA,
       asthma_score_statement = NA,
-      asthma_progress_statment = NA,
-      
-      score_arrow_y1 = 38,
-      score_arrow_y2 = 41.5,
-      score_arrow_size = 1.0,
-      score_arrow_length_unit = 0.25,
-      score_today_numb_label_y = 35,
-      score_today_text_label_y = 31.5,
-      
-      previous_score_arrow_y1 = 25,
-      previous_score_arrow_y2 = 41.5,
-      previous_score_arrow_size = 1.0,
-      previous_score_arrow_length_unit = 0.25,
-      previous_score_today_numb_label_y = 22,
-      previous_score_today_text_label_y = 16.5,
-      
-      diff_arrow_buffer_x = 1,
-      diff_arrow_buffer_y = .5
+      asthma_progress_statment = NA
     )
     
     if (is.na(PT_VALUES_ASTHMA$previous_act)) {
@@ -308,9 +291,15 @@ server <- function(input, output, session) {
          alt = "Alternative text")
   }, deleteFile = FALSE
   )
+
+  pdf_single_filename <- reactive({
+    return(glue::glue("act-{PT_INFO()$name}-{PT_INFO()$today_date}.pdf"))
+  })
   
   output$download_single <- downloadHandler(
-    filename = glue::glue("act.pdf"),
+    #filename = glue::glue("act-{PT_INFO()$display_name}.pdf"),
+    #filename = paste0("act-", PT_INFO()$display_name, ".pdfz"),
+    filename = pdf_single_filename(),
     
     content = function(file) {
       out = knitr::knit2pdf(input = "act-pamphlet_interrior-english.Rnw",
@@ -327,6 +316,8 @@ server <- function(input, output, session) {
     #print(tinytex:::is_tinytex())
     #print(tinytex::tinytex_root())
   })
+
+  output$pdf_single_fn <- renderPrint({print(pdf_single_filename())})
   
   # batch file ----
   input_file <- reactive({input$file})
