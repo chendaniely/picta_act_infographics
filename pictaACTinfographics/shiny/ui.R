@@ -5,7 +5,7 @@ dashboardPage(
   dashboardSidebar(
     sidebarMenu(
       menuItem("Single Image", tabName = "single_image", icon = icon("dice-one")),
-      #menuItem("Batch File", tabName = "batch_file", icon = icon("table")),
+      menuItem("Batch File", tabName = "batch_file", icon = icon("table")),
       menuItem("Debug", tabName = "debug", icon = icon("bug"))
     )
   ),
@@ -45,6 +45,19 @@ dashboardPage(
                 ),
                 box(width = 6,
                   verbatimTextOutput("asthma_statements")
+                )
+              )
+      ),
+      
+      tabItem(tabName = "batch_file",
+              fluidRow(
+                box(
+                  width = 4,
+                  fileInput("file", label = h3("Batch file input")),
+                ),
+                box(
+                  width = 8,
+                  verbatimTextOutput("batch_file_pth"),
                 )
               )
       ),

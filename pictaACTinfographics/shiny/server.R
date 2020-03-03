@@ -327,4 +327,6 @@ server <- function(input, output, session) {
     #print(tinytex:::is_tinytex())
     #print(tinytex::tinytex_root())
   })
+  
+  output$batch_file_pth <- renderPrint({str(input$file)})
 }
