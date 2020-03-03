@@ -38,11 +38,11 @@ PT_VALUES_ASTHMA <- PT_INFO()
 \noindent\fontsize{12}{12}\selectfont \textbf{\Sexpr{stringr::str_to_upper(PT_VALUES_ASTHMA$display_name)}'S LEVEL OF ASTHMA CONTROL}
 
 % interpretive statement
-\vspace{12pt}
+\vspace{36pt}
 \noindent\hspace{0.75in}\noindent\fontsize{22}{22}\selectfont \textbf{\Sexpr{PT_VALUES_ASTHMA$asthma_interpretive_statement}}
 
 % score statement
-\vspace{12pt}
+\vspace{24pt}
 \noindent\hspace{0.75in}\noindent\fontsize{22}{22}\selectfont \Sexpr{PT_VALUES_ASTHMA$asthma_score_statement}
 
 % progress statement
@@ -51,7 +51,7 @@ PT_VALUES_ASTHMA <- PT_INFO()
 \begin{figure}[h!b]
     \begin{center}
     % trim = left bottom right top
-    \includegraphics[trim=0 70 0 120, clip,width=\textwidth]{\Sexpr{plot_pth_unix()}}
+    \includegraphics[trim=0 70 0 120, clip, width=.9\textwidth]{\Sexpr{plot_pth_unix()}}
     \end{center}
 \end{figure}
 
