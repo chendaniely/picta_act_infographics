@@ -315,8 +315,8 @@ server <- function(input, output, session) {
   )
   
   output$tinytex_info <- renderPrint({
-    #print(tinytex:::is_tinytex())
-    #print(tinytex::tinytex_root())
+    print(tinytex:::is_tinytex())
+    print(tinytex::tinytex_root())
   })
 
   output$pdf_single_fn <- renderPrint({print(pdf_single_filename())})
