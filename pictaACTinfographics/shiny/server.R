@@ -307,6 +307,7 @@ server <- function(input, output, session) {
       out = knitr::knit2pdf(input = "act-pamphlet_interrior-english.Rnw",
                              #output = glue::glue("{input$name}-{input$today_date}.tex"),
                              clean = TRUE,
+                             #quiet = TRUE,
                              compiler = "xelatex")
       file.rename(out, file) # move pdf to file for downloading
     },
