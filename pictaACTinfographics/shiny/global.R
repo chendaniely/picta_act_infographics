@@ -6,7 +6,7 @@ library(shiny)
 library(readr)
 library(DT)
 
-dummy <- data.frame(x=c(0,100), y=c(0, 100)) # need this to actually show plot
+dummy <- data.frame(x = c(0,100), y = c(0, 100)) # need this to actually show plot
 
 score_arrow_y1 = 38
 score_arrow_y2 = 41.5
