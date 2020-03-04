@@ -210,6 +210,11 @@ server <- function(input, output, session) {
     PT_VALUES_ASTHMA$asthma_interpretive_statement <- gen_asthma_interpretive_statement_blob(PT_VALUES_ASTHMA$today_act,
                                                                                              PT_VALUES_ASTHMA$language)
 
+    if (PT_VALUES_ASTHMA$language == "spanish") {
+      PT_VALUES_ASTHMA$png_url <- png_url_spanish
+    } else {
+      PT_VALUES_ASTHMA$png_url <- png_url_english
+    }
     PT_VALUES_ASTHMA
   })
   
