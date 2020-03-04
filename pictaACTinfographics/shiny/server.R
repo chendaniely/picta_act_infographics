@@ -10,6 +10,35 @@ server <- function(input, output, session) {
         axis.ticks        = element_blank()
       )
   }
+
+  translate_eng_mo_to_sp <- function(eng_mo) {
+    eng_mo <- stringr::str_to_lower(eng_mo)
+    switch(eng_mo,
+           'january' = 'enero',
+           'february' = 'febrero',
+           'march' = 'marzo',
+           'april' = 'abril',
+           'may' = 'mayo',
+           'june' = 'junio',
+           'july' = 'julio',
+           'august' = 'agosto',
+           'september' = 'septiembre',
+           'october' = 'octubre',
+           'november' = 'noviembre',
+           'december' = 'diciembre',
+           stop(glue::glue("Unknown english month to translate into spanish: {eng_mo}"))
+    )
+  }
+
+  gen_asthma_date_blob <- function(date, language) {
+    if (language == "spanish") {
+      translated_mo <- translate_eng_mo_to_sp(strftime(date, "%B"))
+      format_eng <- strftime(date,
+                             glue::glue("Fecha:  %d de {translated_mo}, %Y"))
+    } else {
+      return(strftime(date, "Date:  %B %d, %Y"))
+    }
+  }
   
   gen_asthma_interpretive_statement_blob <- function(today_act_score, language) {
     if (today_act_score %in% 5:15) {
@@ -203,17 +232,19 @@ server <- function(input, output, session) {
     }
     
     today_date_date <- as.Date(PT_VALUES_ASTHMA$today_date)
-    PT_VALUES_ASTHMA$today_date_text <- strftime(today_date_date, "Date:  %B %d, %Y")
-
-    PT_VALUES_ASTHMA$asthma_score_statement <- sprintf("Your score is %s", PT_VALUES_ASTHMA$today_act)
+    PT_VALUES_ASTHMA$today_date_text <- gen_asthma_date_blob(today_date_date, PT_VALUES_ASTHMA$language)
     
     PT_VALUES_ASTHMA$asthma_interpretive_statement <- gen_asthma_interpretive_statement_blob(PT_VALUES_ASTHMA$today_act,
                                                                                              PT_VALUES_ASTHMA$language)
 
     if (PT_VALUES_ASTHMA$language == "spanish") {
+      PT_VALUES_ASTHMA$asthma_score_statement <- sprintf("Su puntaje es %s", PT_VALUES_ASTHMA$today_act)
       PT_VALUES_ASTHMA$png_url <- png_url_spanish
+      PT_VALUES_ASTHMA$act_rnw_f <- "act-pamphlet_interrior-spanish.Rnw"
     } else {
+      PT_VALUES_ASTHMA$asthma_score_statement <- sprintf("Your score is %s", PT_VALUES_ASTHMA$today_act)
       PT_VALUES_ASTHMA$png_url <- png_url_english
+      PT_VALUES_ASTHMA$act_rnw_f <- "act-pamphlet_interrior-english.Rnw"
     }
     PT_VALUES_ASTHMA
   })
@@ -222,9 +253,10 @@ server <- function(input, output, session) {
   base_image_g <- reactive({grid::rasterGrob(image(), interpolate=TRUE)})
   
   output$asthma_statements <- renderPrint({
+    print(glue::glue("Date text: {PT_INFO()$today_date_text}"))
+    print(glue::glue("Score: {PT_INFO()$asthma_score_statement}"))
     print(glue::glue("Interpretive: {PT_INFO()$asthma_interpretive_statement}"))
     print(glue::glue("Progress: {PT_INFO()$asthma_progress_statment}"))
-    print(glue::glue("Score: {PT_INFO()$asthma_score_statment}"))
   })
   
   output$pt_list <- renderPrint({PT_INFO()})
@@ -303,7 +335,7 @@ server <- function(input, output, session) {
   pdf_single_filename <- reactive({
     name <- gsub(" ", "_", input$name)
     print(name)
-    return(glue::glue("act-{name}-{PT_INFO()$today_date}.pdf"))
+    return(glue::glue("act-{PT_INFO()$language}-{name}-{PT_INFO()$today_date}.pdf"))
   })
   
   output$download_single <- downloadHandler(
@@ -312,7 +344,7 @@ server <- function(input, output, session) {
     filename = function() {pdf_single_filename()},
     
     content = function(file) {
-      out = knitr::knit2pdf(input = "act-pamphlet_interrior-english.Rnw",
+      out = knitr::knit2pdf(input = PT_INFO()$act_rnw_f,
                              #output = glue::glue("{input$name}-{input$today_date}.tex"),
                              clean = TRUE,
                              #quiet = TRUE,
