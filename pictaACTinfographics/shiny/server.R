@@ -30,6 +30,34 @@ server <- function(input, output, session) {
     )
   }
 
+  gen_x_coords <- function(language) {
+    if (language == "spanish") {
+      arrow_x_poor <- c( 8.7, 11.8, 14.9, 18.0, 20.7, # 5
+                   23.8, 26.9, 30.0, 33.1, 36.5, # 10
+                   40.4, 44.1, 47.8, 51.5, 55.2  # 15
+                   )
+
+      arrow_x_16 <- 59.5
+      arrow_x_notwell <- c(63.6, 67.4, 71.1)
+      arrow_x_20 <- 75
+      arrow_x_well <- c(79.4, 83.2, 86.9, 90.6)
+      arrow_x_25 <- 95.0
+    } else {
+      arrow_x_poor <- c( 8.7, 11.8, 14.9, 18.0, 21.1, # 5
+                   24.2, 27.3, 30.4, 33.5, 36.8, # 10
+                   40.5, 44.2, 47.9, 51.6, 55.3  # 15
+                   )
+
+      arrow_x_16 <- 59.5
+      arrow_x_notwell <- c(63.5, 67.2, 70.9)
+      arrow_x_20 <- 75
+      arrow_x_well <- c(79, 82.7, 86.4, 90.1)
+      arrow_x_25 <- 94.2
+    }
+    arrow_x_all <- c(arrow_x_poor, arrow_x_16, arrow_x_notwell, arrow_x_20, arrow_x_well, arrow_x_25)
+    return(arrow_x_all)
+  }
+
   gen_asthma_date_blob <- function(date, language) {
     if (language == "spanish") {
       translated_mo <- translate_eng_mo_to_sp(strftime(date, "%B"))
@@ -98,9 +126,9 @@ server <- function(input, output, session) {
   }
   
   today_score_arrow <- function() {
-    geom_segment(aes(x = arrow_x_all[PT_INFO()$today_act],
+    geom_segment(aes(x = arrow_x_all()[PT_INFO()$today_act],
                      y = score_arrow_y1,
-                     xend = arrow_x_all[PT_INFO()$today_act],
+                     xend = arrow_x_all()[PT_INFO()$today_act],
                      yend = score_arrow_y2),
                  size = score_arrow_size,
                  arrow = arrow(length = unit(score_arrow_length_unit, "cm")))
@@ -109,7 +137,7 @@ server <- function(input, output, session) {
   today_score_value <- function() {
     # ggtext::geom_richtext(
     #   aes(
-    #     x = arrow_x_all[PT_INFO()$today_act],
+    #     x = arrow_x_all()[PT_INFO()$today_act],
     #     y = score_today_numb_label_y,
     #     label = glue::glue("**{PT_INFO()$today_act}**")
     #   ),
@@ -118,7 +146,7 @@ server <- function(input, output, session) {
     #   label.padding = grid::unit(rep(0, 4), "pt") # remove padding
     # )
     ggplot2::annotate("text",
-                      x = arrow_x_all[PT_INFO()$today_act],
+                      x = arrow_x_all()[PT_INFO()$today_act],
                       y = score_today_numb_label_y,
                       label = glue::glue("{PT_INFO()$today_act}"),
                       size = 10,
@@ -127,7 +155,7 @@ server <- function(input, output, session) {
 
   today_score_today <- function(language) {
     # ggtext::geom_richtext(aes(
-    #   x = arrow_x_all[PT_INFO()$today_act],
+    #   x = arrow_x_all()[PT_INFO()$today_act],
     #   y = score_today_text_label_y,
     #   label = ifelse(language == "spanish", "**Hoy**", "**Today**")
     # ),
@@ -136,7 +164,7 @@ server <- function(input, output, session) {
     # label.padding = grid::unit(rep(0, 4), "pt") # remove padding
     # )
     ggplot2::annotate("text",
-                      x = arrow_x_all[PT_INFO()$today_act],
+                      x = arrow_x_all()[PT_INFO()$today_act],
                       y = score_today_text_label_y,
                       label = ifelse(language == "spanish", "Hoy", "Today"),
                       size = 4.5,
@@ -145,9 +173,9 @@ server <- function(input, output, session) {
   
 
   previous_score_arrow <- function() {
-    geom_segment(aes(x = arrow_x_all[PT_INFO()$previous_act],
+    geom_segment(aes(x = arrow_x_all()[PT_INFO()$previous_act],
                      y = previous_score_arrow_y1,
-                     xend = arrow_x_all[PT_INFO()$previous_act],
+                     xend = arrow_x_all()[PT_INFO()$previous_act],
                      yend = previous_score_arrow_y2),
                  size = previous_score_arrow_size,
                  color = "#939598",
@@ -156,7 +184,7 @@ server <- function(input, output, session) {
   
   previous_score_value <- function() {
     # ggtext::geom_richtext(aes(
-    #   x = arrow_x_all[PT_INFO()$previous_act],
+    #   x = arrow_x_all()[PT_INFO()$previous_act],
     #   y = previous_score_today_numb_label_y,
     #   #color = "#939598",
     #   label = glue::glue("<b style='color:#939598'>{PT_INFO()$previous_act}</b>")
@@ -166,7 +194,7 @@ server <- function(input, output, session) {
     # label.padding = grid::unit(rep(0, 4), "pt") # remove padding
     # )
     ggplot2::annotate("text",
-                      x = arrow_x_all[PT_INFO()$previous_act],
+                      x = arrow_x_all()[PT_INFO()$previous_act],
                       y = previous_score_today_numb_label_y,
                       label = glue::glue("{PT_INFO()$previous_act}"),
                       color = "#939598",
@@ -176,7 +204,7 @@ server <- function(input, output, session) {
   
   previous_score_date <- function(language) {
     annotate("text",
-             x = arrow_x_all[PT_INFO()$previous_act],
+             x = arrow_x_all()[PT_INFO()$previous_act],
              y = previous_score_today_text_label_y,
              size = 4.5,
              color = "#939598",
@@ -184,9 +212,9 @@ server <- function(input, output, session) {
   }
   
   diff_arrow_pos_right <- function() {
-    geom_segment(aes(x = arrow_x_all[PT_INFO()$previous_act] + diff_arrow_buffer_x,
+    geom_segment(aes(x = arrow_x_all()[PT_INFO()$previous_act] + diff_arrow_buffer_x,
                      y = previous_score_arrow_y2 - diff_arrow_buffer_y,
-                     xend = arrow_x_all[PT_INFO()$today_act] - diff_arrow_buffer_x,
+                     xend = arrow_x_all()[PT_INFO()$today_act] - diff_arrow_buffer_x,
                      yend = previous_score_arrow_y2 - diff_arrow_buffer_y),
                  size = previous_score_arrow_size,
                  color = "#939598",
@@ -195,9 +223,9 @@ server <- function(input, output, session) {
   
   diff_arrow_neg_left <- function() {
     # only difference here is how the diff arrow buffer is subtracted/added on the x axis
-    geom_segment(aes(x = arrow_x_all[PT_INFO()$previous_act] - diff_arrow_buffer_x,
+    geom_segment(aes(x = arrow_x_all()[PT_INFO()$previous_act] - diff_arrow_buffer_x,
                      y = previous_score_arrow_y2 - diff_arrow_buffer_y,
-                     xend = arrow_x_all[PT_INFO()$today_act] + diff_arrow_buffer_x,
+                     xend = arrow_x_all()[PT_INFO()$today_act] + diff_arrow_buffer_x,
                      yend = previous_score_arrow_y2 - diff_arrow_buffer_y),
                  size = previous_score_arrow_size,
                  color = "#939598",
@@ -247,6 +275,10 @@ server <- function(input, output, session) {
       PT_VALUES_ASTHMA$act_rnw_f <- "act-pamphlet_interrior-english.Rnw"
     }
     PT_VALUES_ASTHMA
+  })
+  
+  arrow_x_all <- reactive({
+    gen_x_coords(PT_INFO()$language)
   })
 
   image <- reactive({png::readPNG(PT_INFO()$png_url)})
