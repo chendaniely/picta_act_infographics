@@ -217,6 +217,9 @@ server <- function(input, output, session) {
     }
     PT_VALUES_ASTHMA
   })
+
+  image <- reactive({png::readPNG(PT_INFO()$png_url)})
+  base_image_g <- reactive({grid::rasterGrob(image(), interpolate=TRUE)})
   
   output$asthma_statements <- renderPrint({
     print(glue::glue("Interpretive: {PT_INFO()$asthma_interpretive_statement}"))
@@ -248,7 +251,7 @@ server <- function(input, output, session) {
     
     base_g <- ggplot(data = dummy, aes(x = x, y = y)) +
       geom_point(alpha = 1/1000000000) +
-      annotation_custom(base_image_g, xmin = -Inf, xmax = Inf, ymin = 20, ymax = Inf) +
+      annotation_custom(base_image_g(), xmin = -Inf, xmax = Inf, ymin = 20, ymax = Inf) +
       theme_nothing_text() +
       scale_x_continuous(breaks = seq(1, 100, by = 5), 1) +
       theme(legend.position = "none") +

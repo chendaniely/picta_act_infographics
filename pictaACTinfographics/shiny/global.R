@@ -40,10 +40,3 @@ diff_arrow_buffer_y = .5
 
 png_url_english <- "./www/graphical_elements_act/ACT number line ENG - cropped.png"
 png_url_spanish <- "./www/graphical_elements_act/ACT number line SPA - cropped.png"
-#png_img_english <- tempfile(fileext = ".png")
-#png_img_english
-#download.file(url = png_url_english,destfile =  png_img_english)
-
-image <- png::readPNG(png_url_english)
-
-base_image_g <- grid::rasterGrob(image, interpolate=TRUE)
