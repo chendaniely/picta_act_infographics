@@ -293,13 +293,15 @@ server <- function(input, output, session) {
   )
 
   pdf_single_filename <- reactive({
-    return(glue::glue("act-{PT_INFO()$name}-{PT_INFO()$today_date}.pdf"))
+    name <- gsub(" ", "_", input$name)
+    print(name)
+    return(glue::glue("act-{name}-{PT_INFO()$today_date}.pdf"))
   })
   
   output$download_single <- downloadHandler(
     #filename = glue::glue("act-{PT_INFO()$display_name}.pdf"),
     #filename = paste0("act-", PT_INFO()$display_name, ".pdfz"),
-    filename = pdf_single_filename(),
+    filename = function() {pdf_single_filename()},
     
     content = function(file) {
       out = knitr::knit2pdf(input = "act-pamphlet_interrior-english.Rnw",
