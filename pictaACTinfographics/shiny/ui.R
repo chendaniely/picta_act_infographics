@@ -55,7 +55,7 @@ dashboardPage(
                   width = 4,
                    "The 'id_file' column is used for the file name to account for duplicate 'display_name' values.",
                   fileInput("file", label = h3("Batch file input")),
-                  actionButton("action", label = "Generate batch files")
+                  downloadButton("download_batch", label = "Generate batch files")
                 ),
                 box(
                   width = 8,

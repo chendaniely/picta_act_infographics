@@ -27,3 +27,11 @@ diff_arrow_buffer_y = .5
 
 png_url_english <- "./www/graphical_elements_act/ACT number line ENG - cropped.png"
 png_url_spanish <- "./www/graphical_elements_act/ACT number line SPA - cropped.png"
+
+empty_batch_df <- data.frame(id_file = NA,
+                             display_name = NA,
+                             language = NA,
+                             today_date = NA,
+                             today_act_score = NA,
+                             previous_date = NA,
+                             previous_act_score = NA)

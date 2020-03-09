@@ -377,10 +377,10 @@ server <- function(input, output, session) {
     
     content = function(file) {
       out = knitr::knit2pdf(input = PT_INFO()$act_rnw_f,
-                             #output = glue::glue("{input$name}-{input$today_date}.tex"),
-                             clean = TRUE,
-                             #quiet = TRUE,
-                             compiler = "xelatex")
+                            #output = glue::glue("{input$name}-{input$today_date}.tex"),
+                            clean = TRUE,
+                            #quiet = TRUE,
+                            compiler = "xelatex")
       file.rename(out, file) # move pdf to file for downloading
     },
     
@@ -392,29 +392,63 @@ server <- function(input, output, session) {
     print(tinytex::tinytex_root())
   })
 
+  gen_pdf_filename <- function(language, name, date) {
+    return(glue::glue("act-{language}-{name}-{date}.pdf"))
+  }
+
   output$pdf_single_fn <- renderPrint({print(pdf_single_filename())})
   
   # batch file ----
   input_file <- reactive({input$file})
   output$batch_file_pth <- renderPrint({str(input_file())})
-  
+ 
   input_file_df <- reactive({
     if (!is.null(input_file())) {
       batch_df <- readr::read_csv(input_file()$datapath)
-      print(head(batch_df))
+      print(batch_df)
       return(batch_df)
     } else {
-      empty_df <- data.frame(id_file = NA,
-                             display_name = NA,
-                             language = NA,
-                             today_date = NA,
-                             today_act_score = NA,
-                             previous_date = NA,
-                             previous_act_score = NA)
+      empty_df <- empty_batch_df
       print(empty_df)
+      print("Need to upload data.")
+      showNotification("Need to upload data.", duration = NULL, type = "error")
       return(empty_df)
     }
   })
 
   output$table <- DT::renderDT(input_file_df())
+
+  new_pt_info_batch <- reactive({})
+  new_pt_info_batch_i <- reactive({})
+
+  gen_pdf_from_df <- function(dat) {
+    print("in gen_pdf_from_df")
+    print(dat)
+    if (identical(dat, empty_batch_df)) {
+      print("Need to upload data.")
+    } else {
+      for (row_i in 1:nrow(dat)) {
+        row_dat <- dat[row_i, , drop = FALSE]
+        print(row_dat)
+        print(row_dat$display_name)
+        new_pt_info <- list(
+          language = row_dat$language,
+          display_name = row_dat$display_name,
+          today_act = row_dat$today_act_score,
+          today_date = row_dat$today_date,
+          previous_act = row_dat$previous_act_score,
+          previous_date = row_dat$previous_date
+        )
+        print(new_pt_info)
+      }
+    }
+  }
+
+  output$download_batch <- downloadHandler(
+    filename = function() {glue::glue("act-batch.zip")},
+    content = function(file) {
+        gen_pdf_from_df(input_file_df())
+    },
+    contentType = 'application/zip'
+  )
 }
