@@ -45,6 +45,12 @@ gen_asthma_progress_statment <- function(today_act_score, previous_act_score, la
     } else {
       return("It is about the same as at your last visit.")
     }
+  } else if (today_act_score >= 20 && previous_act_score <= 19) {
+    if (language == "spanish") {
+      return("Muy bien!")
+    } else {
+      return("Great job!")
+    }
   } else if (today_act_score >= 20 &&
              (today_act_score - previous_act_score >= 0 || previous_act_score - today_act_score >= 2)) {
     return("")
@@ -53,12 +59,6 @@ gen_asthma_progress_statment <- function(today_act_score, previous_act_score, la
       return("Ha habido mejora!")
     } else {
       return("You made good progress!")
-    }
-  } else if (today_act_score >= 20 && previous_act_score <= 19) {
-    if (language == "spanish") {
-      return("Muy bien!")
-    } else {
-      return("Great job!")
     }
   } else {
     stop("Unknown progress statement condition")
