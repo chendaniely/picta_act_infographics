@@ -80,9 +80,8 @@ server <- function(input, output, session) {
                  arrow = arrow(length = unit(previous_score_arrow_length_unit, "cm")))
   }
   
-  # PT_INFO -----
-  PT_INFO <- reactive({
-    PT_VALUES_ASTHMA <- list(
+  default_inputs <- reactive({
+    list(
       language = input$language,
       name = input$name,
       display_name = input$name, # name and display name are coming from the same input
@@ -96,6 +95,11 @@ server <- function(input, output, session) {
       asthma_score_statement = NA,
       asthma_progress_statment = NA
     )
+  })
+  
+  # PT_INFO -----
+  PT_INFO <- reactive({
+    PT_VALUES_ASTHMA <- default_inputs()
     
     if (is.na(PT_VALUES_ASTHMA$previous_act)) {
       PT_VALUES_ASTHMA$previous_date_text <- ""
