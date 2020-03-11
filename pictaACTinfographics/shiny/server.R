@@ -19,6 +19,21 @@ server <- function(input, output, session) {
                       size = 10,
                       fontface = "bold")
   }
+  
+  geom_today_score_value <- function(x, y, label, size = 10, fontface = "bold") {
+    layer(
+      geom = 'text',
+      stat = "identity",
+      position = "identity",
+      params = list(
+        x = x,
+        y = y,
+        label = label,
+        size = size,
+        fontface = fontface
+      )
+    )
+  }
 
   today_score_today <- function(language) {
     ggplot2::annotate("text",
@@ -167,7 +182,8 @@ server <- function(input, output, session) {
     
     arrow_g <- base_g +
       today_score_arrow() +
-      today_score_value() +
+      #today_score_value() +
+      geom_today_score_value(x = arrow_x_all()[PT_INFO()$today_act], y = score_today_numb_label_y, label = glue::glue("{PT_INFO()$today_act}")) +
       today_score_today(PT_INFO()$language)
     
     if (!is.na(PT_INFO()$previous_act)) {
