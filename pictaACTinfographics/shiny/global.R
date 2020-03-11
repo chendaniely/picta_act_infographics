@@ -5,10 +5,7 @@ library(shiny)
 library(readr)
 library(DT)
 
-source("functions/plot.R")
-source("functions/translate.R")
-source("functions/gen_text_blob.R")
-
+purrr::walk(fs::dir_ls('functions'), function(x){print(x); source(x)})
 
 dummy <- data.frame(x = c(0,100), y = c(0, 100)) # need this to actually show plot
 
