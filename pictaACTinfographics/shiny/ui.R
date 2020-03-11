@@ -41,9 +41,11 @@ dashboardPage(
               ),
               fluidRow(
                 box(width = 6,
+                    title = "Image preview",
                     imageOutput("plot", width = "100%")
                 ),
                 box(width = 6,
+                    title = "Text preview",
                   verbatimTextOutput("asthma_statements")
                 )
               )
