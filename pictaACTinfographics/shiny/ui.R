@@ -67,6 +67,7 @@ dashboardPage(
               fluidRow(
                 box(width = 12,
                     title = "Data errors",
+                    status = 'danger',
                     DT::DTOutput('table_errors')
                 )
               ),
