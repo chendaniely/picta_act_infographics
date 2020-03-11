@@ -1,3 +1,10 @@
+gen_exterior_png_pth <- function(language) {
+  eng_or_spa <- stringr::str_to_upper(ifelse(language == "english", "eng", "spa"))
+  return(glue::glue(
+    "./www/graphical_elements_act/ACT exterior {eng_or_spa}.png"
+  ))
+}
+
 theme_nothing_text <- function(base_size = 12, base_family = "Arial") {
   theme_bw(base_size = base_size, base_family = base_family) %+replace%
     theme(

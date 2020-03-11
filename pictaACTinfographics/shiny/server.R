@@ -105,12 +105,7 @@ server <- function(input, output, session) {
   
   plot_pth_norm <- reactive({fs::path_norm(tempfile(fileext = '.png'))})
   plot_pth_unix <- reactive({gsub("\\\\", "/", plot_pth_norm())})
-  fig_pth_act_exterior <- reactive({
-    eng_or_spa <- stringr::str_to_upper(ifelse(input$language == "english", "eng", "spa"))
-    return(glue::glue(
-      "./www/graphical_elements_act/ACT exterior {eng_or_spa}.png"
-    ))
-  })
+  fig_pth_act_exterior <- reactive({gen_exterior_png_pth(PT_INFO()$language)})
   
 
   # image -----
