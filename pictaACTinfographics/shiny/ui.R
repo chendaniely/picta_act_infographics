@@ -64,7 +64,12 @@ dashboardPage(
                   verbatimTextOutput("batch_file_pth"),
                 )
               ),
-              
+              fluidRow(
+                box(width = 12,
+                    title = "Data errors",
+                    DT::DTOutput('table_errors')
+                )
+              ),
               fluidRow(
                 box(width = 12,
                     title = "Data read",

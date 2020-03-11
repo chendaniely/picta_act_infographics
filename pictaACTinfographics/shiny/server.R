@@ -204,6 +204,11 @@ server <- function(input, output, session) {
   input_file_df <- reactive({
     if (!is.null(input_file())) {
       batch_df <- readr::read_csv(input_file()$datapath)
+      problem_rows <- readr::problems(batch_df)$row
+      
+      batch_df$is_valid <- apply(batch_df, MARGIN = 1, FUN = is_row_valid)
+      batch_df$is_valid[problem_rows] <- FALSE
+
       print(batch_df)
       return(batch_df)
     } else {
@@ -216,6 +221,14 @@ server <- function(input, output, session) {
   })
 
   output$table <- DT::renderDT(input_file_df())
+  
+  output$table_errors <- DT::renderDT({
+    if (is.null(input_file())) {
+      return(empty_batch_df)
+    } else {
+      return(input_file_df() %>% dplyr::filter(is_valid == FALSE))
+    }
+  })
 
   new_pt_info_batch <- reactive({})
   new_pt_info_batch_i <- reactive({})
