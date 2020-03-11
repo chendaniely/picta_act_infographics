@@ -186,6 +186,12 @@ server <- function(input, output, session) {
                             clean = TRUE,
                             #quiet = TRUE,
                             compiler = "xelatex")
+      try({
+        fs::file_delete("act-pamphlet_interrior-english.log")
+        fs::file_delete("act-pamphlet_interrior-english.tex")
+        fs::file_delete("act-pamphlet_interrior-spanish.log")
+        fs::file_delete("act-pamphlet_interrior-spanish.tex")
+      })
       file.rename(out, file) # move pdf to file for downloading
     },
     contentType = 'application/pdf'
