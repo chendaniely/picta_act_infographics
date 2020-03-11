@@ -5,8 +5,7 @@ library(shiny)
 library(readr)
 library(DT)
 
-theme_nothing_text <- function(base_size = 12, base_family = "Arial")
-{
+theme_nothing_text <- function(base_size = 12, base_family = "Arial") {
   theme_bw(base_size = base_size, base_family = base_family) %+replace%
     theme(
       rect              = element_blank(),
