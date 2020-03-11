@@ -30,6 +30,21 @@ geom_today_score_value <- function(x, y, label, size = 10, fontface = "bold") {
   )
 }
 
+geom_today_score_today <- function(x, y, language, size = 4.5, fontface = "bold") {
+  layer(
+    geom = 'text',
+    stat = "identity",
+    position = "identity",
+    params = list(
+      x = x,
+      y = y,
+      label = ifelse(language == "spanish", "Hoy", "Today"),
+      size = size,
+      fontface = fontface
+    )
+  )
+}
+
 translate_eng_mo_to_sp <- function(eng_mo) {
   eng_mo <- stringr::str_to_lower(eng_mo)
   switch(eng_mo,
