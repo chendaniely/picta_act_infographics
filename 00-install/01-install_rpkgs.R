@@ -13,6 +13,7 @@ install.packages(
       'devtools',
       'remotes',
       'readr',
+      'readxl',
       'DT',
       'stringr',
       'fs',
