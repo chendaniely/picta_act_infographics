@@ -1,5 +1,2 @@
-"Rscript.exe - Shortcut.lnk" -e "install.packages(c('ggplot2', 'png', 'extrafont', 'knitr', 'rmarkdown', 'shiny', 'shinydashboard', 'tinytex', 'here', 'RCurl', 'devtools', 'remotes', 'readr', 'DT'), repo = 'https://cloud.r-project.org/')"
-"Rscript.exe - Shortcut.lnk" -e "remotes::remotes::install_github('wilkelab/ggtext')"
-"Rscript.exe - Shortcut.lnk" -e "tinytex::install_tinytex()"
-"Rscript.exe - Shortcut.lnk" -e "tinytex:::install_yihui_pkgs()"
+"C:\Program Files\R\R-3.6.2\bin\x64\RScript.exe" 00-install.R
 @PAUSE
