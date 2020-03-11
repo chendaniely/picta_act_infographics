@@ -44,6 +44,37 @@ geom_today_score_today <- function(x, y, language, size = 4.5, fontface = "bold"
   )
 }
 
+geom_previous_score_value <- function(x, y, previous_act_score, color = "#939598", size = 10, fontface = "bold") {
+  layer(
+    geom = 'text',
+    stat = "identity",
+    position = "identity",
+    params = list(
+      x = x,
+      y = y,
+      label = previous_act_score,
+      color = color,
+      size = size,
+      fontface = fontface
+    )
+  )
+}
+
+geom_previous_score_date <- function(x, y, language, previous_date, size = 4.5, color = "#939598") {
+  layer(
+    geom = 'text',
+    stat = "identity",
+    position = "identity",
+    params = list(
+      x = x,
+      y = y,
+      label = glue::glue("{ifelse(language == 'spanish', 'Última Visita','Last visit')}\n{previous_date}"),
+      color = color,
+      size = size
+    )
+  )
+}
+
 translate_eng_mo_to_sp <- function(eng_mo) {
   eng_mo <- stringr::str_to_lower(eng_mo)
   switch(eng_mo,

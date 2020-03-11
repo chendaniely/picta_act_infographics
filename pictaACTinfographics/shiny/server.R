@@ -21,25 +21,6 @@ server <- function(input, output, session) {
                  arrow = arrow(length = unit(previous_score_arrow_length_unit, "cm")))
   }
   
-  previous_score_value <- function() {
-    ggplot2::annotate("text",
-                      x = arrow_x_all()[PT_INFO()$previous_act],
-                      y = previous_score_today_numb_label_y,
-                      label = glue::glue("{PT_INFO()$previous_act}"),
-                      color = "#939598",
-                      size = 10,
-                      fontface = "bold")
-  }
-  
-  previous_score_date <- function(language) {
-    annotate("text",
-             x = arrow_x_all()[PT_INFO()$previous_act],
-             y = previous_score_today_text_label_y,
-             size = 4.5,
-             color = "#939598",
-             label = glue::glue("{ifelse(language == 'spanish', 'Última Visita','Last visit')}\n{PT_INFO()$previous_date_text}"))
-  }
-  
   diff_arrow_pos_right <- function() {
     geom_segment(aes(x = arrow_x_all()[PT_INFO()$previous_act] + diff_arrow_buffer_x,
                      y = previous_score_arrow_y2 - diff_arrow_buffer_y,
@@ -155,8 +136,8 @@ server <- function(input, output, session) {
       # if there is a previous act value
       last_g <- arrow_g +
         previous_score_arrow() +
-        previous_score_value() +
-        previous_score_date(PT_INFO()$language)
+        geom_previous_score_value(x = arrow_x_all()[PT_INFO()$previous_act], y = previous_score_today_numb_label_y, previous_act_score = PT_INFO()$previous_act) +
+        geom_previous_score_date(x = arrow_x_all()[PT_INFO()$previous_act], y = previous_score_today_text_label_y, language = PT_INFO()$language, previous_date = PT_INFO()$previous_date)
       
       if (PT_INFO()$today_act - PT_INFO()$previous_act > 0) {
         last_g <- last_g + diff_arrow_pos_right()
