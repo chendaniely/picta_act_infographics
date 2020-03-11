@@ -135,16 +135,6 @@ server <- function(input, output, session) {
   }
   
   today_score_value <- function() {
-    # ggtext::geom_richtext(
-    #   aes(
-    #     x = arrow_x_all()[PT_INFO()$today_act],
-    #     y = score_today_numb_label_y,
-    #     label = glue::glue("**{PT_INFO()$today_act}**")
-    #   ),
-    #   size = 10,
-    #   fill = NA, label.color = NA, # remove background and outline
-    #   label.padding = grid::unit(rep(0, 4), "pt") # remove padding
-    # )
     ggplot2::annotate("text",
                       x = arrow_x_all()[PT_INFO()$today_act],
                       y = score_today_numb_label_y,
@@ -154,15 +144,6 @@ server <- function(input, output, session) {
   }
 
   today_score_today <- function(language) {
-    # ggtext::geom_richtext(aes(
-    #   x = arrow_x_all()[PT_INFO()$today_act],
-    #   y = score_today_text_label_y,
-    #   label = ifelse(language == "spanish", "**Hoy**", "**Today**")
-    # ),
-    # size = 4.5,
-    # fill = NA, label.color = NA, # remove background and outline
-    # label.padding = grid::unit(rep(0, 4), "pt") # remove padding
-    # )
     ggplot2::annotate("text",
                       x = arrow_x_all()[PT_INFO()$today_act],
                       y = score_today_text_label_y,
@@ -183,16 +164,6 @@ server <- function(input, output, session) {
   }
   
   previous_score_value <- function() {
-    # ggtext::geom_richtext(aes(
-    #   x = arrow_x_all()[PT_INFO()$previous_act],
-    #   y = previous_score_today_numb_label_y,
-    #   #color = "#939598",
-    #   label = glue::glue("<b style='color:#939598'>{PT_INFO()$previous_act}</b>")
-    # ),
-    # size = 10,
-    # fill = NA, label.color = NA, # remove background and outline
-    # label.padding = grid::unit(rep(0, 4), "pt") # remove padding
-    # )
     ggplot2::annotate("text",
                       x = arrow_x_all()[PT_INFO()$previous_act],
                       y = previous_score_today_numb_label_y,
@@ -371,8 +342,6 @@ server <- function(input, output, session) {
   })
   
   output$download_single <- downloadHandler(
-    #filename = glue::glue("act-{PT_INFO()$display_name}.pdf"),
-    #filename = paste0("act-", PT_INFO()$display_name, ".pdfz"),
     filename = function() {pdf_single_filename()},
     
     content = function(file) {

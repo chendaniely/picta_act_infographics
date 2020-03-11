@@ -1,7 +1,6 @@
 library(here)
 library(RCurl)
 library(ggplot2)
-#library(ggtext)
 library(shiny)
 library(readr)
 library(DT)
