@@ -21,34 +21,16 @@ server <- function(input, output, session) {
   # PT_INFO -----
   PT_INFO <- reactive({
     PT_VALUES_ASTHMA <- default_inputs()
-    
-    if (is.na(PT_VALUES_ASTHMA$previous_act)) {
-      PT_VALUES_ASTHMA$previous_date_text <- ""
-      PT_VALUES_ASTHMA$asthma_progress_statment <- ""
-    } else {
-      previous_date_date <- as.Date(PT_VALUES_ASTHMA$previous_date)
-      PT_VALUES_ASTHMA$previous_date_text <- strftime(previous_date_date, "%m/%d/%y")
-      PT_VALUES_ASTHMA$asthma_progress_statment <- gen_asthma_progress_statment(PT_VALUES_ASTHMA$today_act,
-                                                                                PT_VALUES_ASTHMA$previous_act,
-                                                                                PT_VALUES_ASTHMA$language)
-    }
-    
-    today_date_date <- as.Date(PT_VALUES_ASTHMA$today_date)
-    PT_VALUES_ASTHMA$today_date_text <- gen_asthma_date_blob(today_date_date, PT_VALUES_ASTHMA$language)
-    
-    PT_VALUES_ASTHMA$asthma_interpretive_statement <- gen_asthma_interpretive_statement_blob(PT_VALUES_ASTHMA$today_act,
-                                                                                             PT_VALUES_ASTHMA$language)
-
-    if (PT_VALUES_ASTHMA$language == "spanish") {
-      PT_VALUES_ASTHMA$asthma_score_statement <- sprintf("Su puntaje es %s", PT_VALUES_ASTHMA$today_act)
-      PT_VALUES_ASTHMA$png_url <- png_url_spanish
-      PT_VALUES_ASTHMA$act_rnw_f <- "act-pamphlet_interrior-spanish.Rnw"
-    } else {
-      PT_VALUES_ASTHMA$asthma_score_statement <- sprintf("Your score is %s", PT_VALUES_ASTHMA$today_act)
-      PT_VALUES_ASTHMA$png_url <- png_url_english
-      PT_VALUES_ASTHMA$act_rnw_f <- "act-pamphlet_interrior-english.Rnw"
-    }
-    PT_VALUES_ASTHMA
+    return(
+      gen_pt_info(
+        display_name = PT_VALUES_ASTHMA$display_name,
+        language = PT_VALUES_ASTHMA$language,
+        today_date = PT_VALUES_ASTHMA$today_date,
+        today_act_score = PT_VALUES_ASTHMA$today_act,
+        previous_date = PT_VALUES_ASTHMA$previous_date,
+        previous_act_score = PT_VALUES_ASTHMA$previous_act 
+      )
+    )
   })
   
   # x coord for arrows -----
