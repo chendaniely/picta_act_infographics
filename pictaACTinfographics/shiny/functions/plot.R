@@ -145,7 +145,7 @@ geom_diff_arrow_neg_left <- function(mapping = NULL, arrow_length = score_arrow_
 geom_score_arrows <- function(base_g,
                               today_act,
                               language,
-                              x_breaks = arrow_x_all,
+                              x_breaks,
                               today_arrow_ystart = score_arrow_y1,
                               today_arrow_yend = score_arrow_y2,
                               today_value_y = score_today_numb_label_y,

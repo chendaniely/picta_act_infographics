@@ -55,7 +55,7 @@ server <- function(input, output, session) {
     
     base_g <- geom_base_image(base_image_g())
     
-    arrow_g <- geom_score_arrows(base_g, PT_INFO()$today_act, PT_INFO()$language)
+    arrow_g <- geom_score_arrows(base_g, PT_INFO()$today_act, PT_INFO()$language, x_breaks = arrow_x_all())
     
     if (!is.na(PT_INFO()$previous_act)) {
       # if there is a previous act value
