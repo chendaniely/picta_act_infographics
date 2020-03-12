@@ -2,15 +2,6 @@
 server <- function(input, output, session) {
 
   # reactive functions -----
-  today_score_arrow <- function() {
-    geom_segment(aes(x = arrow_x_all()[PT_INFO()$today_act],
-                     y = score_arrow_y1,
-                     xend = arrow_x_all()[PT_INFO()$today_act],
-                     yend = score_arrow_y2),
-                 size = score_arrow_size,
-                 arrow = arrow(length = unit(score_arrow_length_unit, "cm")))
-  }
-
   previous_score_arrow <- function() {
     geom_segment(aes(x = arrow_x_all()[PT_INFO()$previous_act],
                      y = previous_score_arrow_y1,
@@ -123,7 +114,7 @@ server <- function(input, output, session) {
       theme(text = element_text(family = "sans"))
     
     arrow_g <- base_g +
-      today_score_arrow() +
+      geom_today_score_arrow(aes(x = arrow_x_all()[PT_INFO()$today_act], y = score_arrow_y1, xend = arrow_x_all()[PT_INFO()$today_act], yend = score_arrow_y2)) +
       geom_today_score_value(x = arrow_x_all()[PT_INFO()$today_act], y = score_today_numb_label_y, label = glue::glue("{PT_INFO()$today_act}")) +
       geom_today_score_today(x = arrow_x_all()[PT_INFO()$today_act], y = score_today_text_label_y, language = PT_INFO()$language)
     
