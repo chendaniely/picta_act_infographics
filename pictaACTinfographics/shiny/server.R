@@ -1,19 +1,6 @@
 
 server <- function(input, output, session) {
 
-  # reactive functions -----
-
-  diff_arrow_neg_left <- function() {
-    # only difference here is how the diff arrow buffer is subtracted/added on the x axis
-    geom_segment(aes(x = arrow_x_all()[PT_INFO()$previous_act] - diff_arrow_buffer_x,
-                     y = previous_score_arrow_y2 - diff_arrow_buffer_y,
-                     xend = arrow_x_all()[PT_INFO()$today_act] + diff_arrow_buffer_x,
-                     yend = previous_score_arrow_y2 - diff_arrow_buffer_y),
-                 size = previous_score_arrow_size,
-                 color = "#939598",
-                 arrow = arrow(length = unit(previous_score_arrow_length_unit, "cm")))
-  }
-  
   default_inputs <- reactive({
     list(
       language = input$language,
@@ -116,7 +103,10 @@ server <- function(input, output, session) {
                                                          yend = previous_score_arrow_y2 - diff_arrow_buffer_y))
         
       } else if (PT_INFO()$today_act - PT_INFO()$previous_act < 0) {
-        last_g <- last_g + diff_arrow_neg_left()
+        last_g <- last_g + geom_diff_arrow_neg_left(aes(x = arrow_x_all()[PT_INFO()$previous_act] - diff_arrow_buffer_x,
+                                                        y = previous_score_arrow_y2 - diff_arrow_buffer_y,
+                                                        xend = arrow_x_all()[PT_INFO()$today_act] + diff_arrow_buffer_x,
+                                                        yend = previous_score_arrow_y2 - diff_arrow_buffer_y))
       } else {
         # when previous act is the same as today's act
         last_g <- arrow_g
