@@ -2,16 +2,7 @@
 server <- function(input, output, session) {
 
   # reactive functions -----
-  previous_score_arrow <- function() {
-    geom_segment(aes(x = arrow_x_all()[PT_INFO()$previous_act],
-                     y = previous_score_arrow_y1,
-                     xend = arrow_x_all()[PT_INFO()$previous_act],
-                     yend = previous_score_arrow_y2),
-                 size = previous_score_arrow_size,
-                 color = "#939598",
-                 arrow = arrow(length = unit(previous_score_arrow_length_unit, "cm")))
-  }
-  
+
   diff_arrow_pos_right <- function() {
     geom_segment(aes(x = arrow_x_all()[PT_INFO()$previous_act] + diff_arrow_buffer_x,
                      y = previous_score_arrow_y2 - diff_arrow_buffer_y,
@@ -121,7 +112,10 @@ server <- function(input, output, session) {
     if (!is.na(PT_INFO()$previous_act)) {
       # if there is a previous act value
       last_g <- arrow_g +
-        previous_score_arrow() +
+        geom_previous_score_arrow(aes(x = arrow_x_all()[PT_INFO()$previous_act],
+                                      y = previous_score_arrow_y1,
+                                      xend = arrow_x_all()[PT_INFO()$previous_act],
+                                      yend = previous_score_arrow_y2)) +
         geom_previous_score_value(x = arrow_x_all()[PT_INFO()$previous_act], y = previous_score_today_numb_label_y, previous_act_score = PT_INFO()$previous_act) +
         geom_previous_score_date(x = arrow_x_all()[PT_INFO()$previous_act], y = previous_score_today_text_label_y, language = PT_INFO()$language, previous_date = PT_INFO()$previous_date)
       
