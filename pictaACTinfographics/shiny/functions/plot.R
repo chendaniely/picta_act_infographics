@@ -102,6 +102,20 @@ geom_previous_score_arrow <- function(mapping = NULL, arrow_length = score_arrow
                       linejoin = "round"))
 }
 
+geom_diff_arrow_pos_right <- function(mapping = NULL, arrow_length = score_arrow_length_unit, arrow_size = previous_score_arrow_size, arrow_color = "#939598") {
+  layer(data = NULL,
+        mapping = mapping,
+        stat = "identity",
+        geom = GeomSegment, 
+        position = "identity",
+        params = list(arrow = arrow(length = unit(arrow_length, "cm")),
+                      size = arrow_size,
+                      color = arrow_color,
+                      arrow.fill = NULL, 
+                      lineend = "butt",
+                      linejoin = "round"))
+}
+
 gen_x_coords <- function(language) {
   if (language == "spanish") {
     arrow_x_poor <- c( 8.7, 11.8, 14.9, 18.0, 20.7, # 5
