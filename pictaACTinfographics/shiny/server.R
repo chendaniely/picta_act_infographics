@@ -58,7 +58,7 @@ server <- function(input, output, session) {
 
   # base image -----
   image <- reactive({png::readPNG(PT_INFO()$png_url)})
-  base_image_g <- reactive({grid::rasterGrob(image(), interpolate=TRUE)})
+  base_image_g <- reactive({grid::rasterGrob(image(), interpolate = TRUE)})
   
   
   
