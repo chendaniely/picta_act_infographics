@@ -258,6 +258,7 @@ server <- function(input, output, session) {
   })
   
   output$asthma_statements <- renderPrint({
+    print(glue::glue("Name: {PT_INFO()$display_name}"))
     print(glue::glue("Date text: {PT_INFO()$today_date_text}"))
     print(glue::glue("Score: {PT_INFO()$asthma_score_statement}"))
     print(glue::glue("Interpretive: {PT_INFO()$asthma_interpretive_statement}"))
