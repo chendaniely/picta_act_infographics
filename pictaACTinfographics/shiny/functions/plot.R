@@ -75,13 +75,19 @@ geom_previous_score_date <- function(x, y, language, previous_date, size = 4.5, 
   )
 }
 
-geom_today_score_arrow <- function (mapping = NULL, arrow_length = score_arrow_length_unit) {
+geom_today_score_arrow <- function(mapping = NULL, arrow_length = score_arrow_length_unit, arrow_size = score_arrow_size) {
   layer(data = NULL,
         mapping = mapping,
         stat = "identity",
         geom = GeomSegment, 
         position = "identity",
         params = list(arrow = arrow(length = unit(arrow_length, "cm")),
+                      size = arrow_size,
+                      arrow.fill = NULL, 
+                      lineend = "butt",
+                      linejoin = "round"))
+}
+
 geom_previous_score_arrow <- function(mapping = NULL, arrow_length = score_arrow_length_unit, arrow_size = previous_score_arrow_size, arrow_color = "#939598") {
   layer(data = NULL,
         mapping = mapping,
