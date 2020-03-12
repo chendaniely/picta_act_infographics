@@ -201,7 +201,7 @@ server <- function(input, output, session) {
       empty_df <- empty_batch_df
       print(empty_df)
       print("Need to upload data.")
-      showNotification("Need to upload data.", duration = NULL, type = "error")
+      showNotification("Need to upload data.", type = "error")
       return(empty_df)
     }
   })
