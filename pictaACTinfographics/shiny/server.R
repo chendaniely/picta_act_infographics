@@ -71,20 +71,9 @@ server <- function(input, output, session) {
   output$plot <- renderImage({
     outfile <- plot_pth_norm()
     
-    base_g <- ggplot(data = dummy, aes(x = x, y = y)) +
-      geom_point(alpha = 1/1000000000) +
-      annotation_custom(base_image_g(), xmin = -Inf, xmax = Inf, ymin = 20, ymax = Inf) +
-      theme_nothing_text() +
-      scale_x_continuous(breaks = seq(1, 100, by = 5), 1) +
-      theme(legend.position = "none") +
-      theme(axis.title = element_blank(), axis.text = element_blank()) +
-      theme(plot.title = element_text(size = 30, colour = "black")) +
-      theme(text = element_text(family = "sans"))
+    base_g <- geom_base_image(base_image_g())
     
-    arrow_g <- base_g +
-      geom_today_score_arrow(aes(x = arrow_x_all()[PT_INFO()$today_act], y = score_arrow_y1, xend = arrow_x_all()[PT_INFO()$today_act], yend = score_arrow_y2)) +
-      geom_today_score_value(x = arrow_x_all()[PT_INFO()$today_act], y = score_today_numb_label_y, label = glue::glue("{PT_INFO()$today_act}")) +
-      geom_today_score_today(x = arrow_x_all()[PT_INFO()$today_act], y = score_today_text_label_y, language = PT_INFO()$language)
+    arrow_g <- geom_score_arrows(base_g, PT_INFO()$today_act, PT_INFO()$language)
     
     if (!is.na(PT_INFO()$previous_act)) {
       # if there is a previous act value

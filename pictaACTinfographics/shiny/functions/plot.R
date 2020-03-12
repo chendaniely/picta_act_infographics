@@ -5,6 +5,18 @@ gen_exterior_png_pth <- function(language) {
   ))
 }
 
+geom_base_image <- function(base_image_grob, data = dummy, mapping = aes(x = x, y = y)) {
+  ggplot(data = data, mapping = mapping) +
+    geom_point(alpha = 1/1000000000) +
+    annotation_custom(base_image_grob, xmin = -Inf, xmax = Inf, ymin = 20, ymax = Inf) +
+    theme_nothing_text() +
+    scale_x_continuous(breaks = seq(1, 100, by = 5), 1) +
+    theme(legend.position = "none") +
+    theme(axis.title = element_blank(), axis.text = element_blank()) +
+    theme(plot.title = element_text(size = 30, colour = "black")) +
+    theme(text = element_text(family = "sans"))
+}
+
 theme_nothing_text <- function(base_size = 12, base_family = "Arial") {
   theme_bw(base_size = base_size, base_family = base_family) %+replace%
     theme(
@@ -128,6 +140,29 @@ geom_diff_arrow_neg_left <- function(mapping = NULL, arrow_length = score_arrow_
                       arrow.fill = NULL, 
                       lineend = "butt",
                       linejoin = "round"))
+}
+
+geom_score_arrows <- function(base_g,
+                              today_act,
+                              language,
+                              x_breaks = arrow_x_all,
+                              today_arrow_ystart = score_arrow_y1,
+                              today_arrow_yend = score_arrow_y2,
+                              today_value_y = score_today_numb_label_y,
+                              today_today_y = score_today_text_label_y) {
+  
+  base_g +
+    
+    geom_today_score_arrow(aes(x = x_breaks[today_act],
+                               y = today_arrow_ystart,
+                               xend = x_breaks[today_act],
+                               yend = today_arrow_yend)) +
+    
+    geom_today_score_value(x = x_breaks[today_act],
+                           y = today_value_y,
+                           label = glue::glue("{today_act}")) +
+    
+    geom_today_score_today(x = x_breaks[today_act], y = today_today_y, language = language)
 }
 
 gen_x_coords <- function(language) {
