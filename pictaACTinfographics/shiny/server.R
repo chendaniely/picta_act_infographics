@@ -48,11 +48,7 @@ server <- function(input, output, session) {
   plot_pth_unix <- reactive({gsub("\\\\", "/", plot_pth_norm())})
   fig_pth_act_exterior <- reactive({gen_exterior_png_pth(PT_INFO()$language)})
   
-
-  # image -----
-  output$plot <- renderImage({
-    outfile <- plot_pth_norm()
-    
+  arrow_g <- reactive({
     base_g <- geom_base_image(base_image_g())
     
     arrow_g <- geom_score_arrows(base_g = base_g,
@@ -61,6 +57,14 @@ server <- function(input, output, session) {
                                  previous_date = PT_INFO()$previous_date,
                                  language = PT_INFO()$language,
                                  x_breaks = arrow_x_all())
+    return(arrow_g)
+  })
+
+  # image -----
+  output$plot <- renderImage({
+    outfile <- plot_pth_norm()
+    
+    arrow_g <- arrow_g()
     
     # no previous value provided
     ggplot2::ggsave(filename =  outfile,
