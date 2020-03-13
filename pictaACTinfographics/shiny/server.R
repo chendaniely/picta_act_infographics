@@ -55,45 +55,19 @@ server <- function(input, output, session) {
     
     base_g <- geom_base_image(base_image_g())
     
-    arrow_g <- geom_score_arrows(base_g, PT_INFO()$today_act, PT_INFO()$language, x_breaks = arrow_x_all())
+    arrow_g <- geom_score_arrows(base_g = base_g,
+                                 today_act = PT_INFO()$today_act,
+                                 previous_act = PT_INFO()$previous_act,
+                                 previous_date = PT_INFO()$previous_date,
+                                 language = PT_INFO()$language,
+                                 x_breaks = arrow_x_all())
     
-    if (!is.na(PT_INFO()$previous_act)) {
-      # if there is a previous act value
-      last_g <- arrow_g +
-        geom_previous_score_arrow(aes(x = arrow_x_all()[PT_INFO()$previous_act],
-                                      y = previous_score_arrow_y1,
-                                      xend = arrow_x_all()[PT_INFO()$previous_act],
-                                      yend = previous_score_arrow_y2)) +
-        geom_previous_score_value(x = arrow_x_all()[PT_INFO()$previous_act], y = previous_score_today_numb_label_y, previous_act_score = PT_INFO()$previous_act) +
-        geom_previous_score_date(x = arrow_x_all()[PT_INFO()$previous_act], y = previous_score_today_text_label_y, language = PT_INFO()$language, previous_date = PT_INFO()$previous_date)
-      
-      if (PT_INFO()$today_act - PT_INFO()$previous_act > 0) {
-        last_g <- last_g + geom_diff_arrow_pos_right(aes(x = arrow_x_all()[PT_INFO()$previous_act] + diff_arrow_buffer_x,
-                                                         y = previous_score_arrow_y2 - diff_arrow_buffer_y,
-                                                         xend = arrow_x_all()[PT_INFO()$today_act] - diff_arrow_buffer_x,
-                                                         yend = previous_score_arrow_y2 - diff_arrow_buffer_y))
-        
-      } else if (PT_INFO()$today_act - PT_INFO()$previous_act < 0) {
-        last_g <- last_g + geom_diff_arrow_neg_left(aes(x = arrow_x_all()[PT_INFO()$previous_act] - diff_arrow_buffer_x,
-                                                        y = previous_score_arrow_y2 - diff_arrow_buffer_y,
-                                                        xend = arrow_x_all()[PT_INFO()$today_act] + diff_arrow_buffer_x,
-                                                        yend = previous_score_arrow_y2 - diff_arrow_buffer_y))
-      } else {
-        # when previous act is the same as today's act
-        last_g <- arrow_g
-      }
-      
-      ggplot2::ggsave(filename =  outfile,
-                     plot = last_g,
-                     width = 11, height = 8.5)
-      #last_g
-    } else {
-      # no previous value provided
-      ggplot2::ggsave(filename =  outfile,
-                     plot = arrow_g,
-                     width = 11, height = 8.5)
-      #arrow_g
-    }
+    # no previous value provided
+    ggplot2::ggsave(filename =  outfile,
+                    plot = arrow_g,
+                    width = 11, height = 8.5)
+    #arrow_g
+    
     list(src = outfile,
          contentType = 'image/png',
          width = "100%",
