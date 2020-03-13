@@ -63,22 +63,17 @@ server <- function(input, output, session) {
   # image -----
   output$plot <- renderImage({
     outfile <- plot_pth_norm()
-    
-    arrow_g <- arrow_g()
-    
-    # no previous value provided
+
     ggplot2::ggsave(filename =  outfile,
-                    plot = arrow_g,
+                    plot = arrow_g(),
                     width = 11, height = 8.5)
-    #arrow_g
-    
+
     list(src = outfile,
          contentType = 'image/png',
          width = "100%",
          #height = "100%",
          alt = "Alternative text")
-  }, deleteFile = FALSE
-  )
+  }, deleteFile = FALSE)
 
   # pdf file name -----
   pdf_single_filename <- reactive({
