@@ -151,7 +151,7 @@ geom_score_arrows <- function(base_g,
                               today_value_y = score_today_numb_label_y,
                               today_today_y = score_today_text_label_y) {
   
-  base_g +
+  today_arrow <- base_g +
     
     geom_today_score_arrow(aes(x = x_breaks[today_act],
                                y = today_arrow_ystart,
@@ -163,6 +163,8 @@ geom_score_arrows <- function(base_g,
                            label = glue::glue("{today_act}")) +
     
     geom_today_score_today(x = x_breaks[today_act], y = today_today_y, language = language)
+  
+  return(today_arrow)
 }
 
 gen_x_coords <- function(language) {
