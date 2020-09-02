@@ -42,7 +42,11 @@ dashboardPage(
               fluidRow(
                 box(width = 6,
                     title = "Image preview",
-                    imageOutput("plot", width = "100%")
+                    shinycssloaders::withSpinner(
+                      imageOutput("plot", width = "100%"),
+                      type = 3,
+                      color.background = "#FFFFFF"
+                    )
                 ),
                 box(width = 6,
                     title = "Text preview",

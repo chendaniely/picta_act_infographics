@@ -20,5 +20,6 @@ install.packages(
       'lubridate',
       'dplyr',
       'purrr',
-      'janitor'
+      'janitor',
+      'shinycssloaders'
   ), repo = 'https://cloud.r-project.org/')

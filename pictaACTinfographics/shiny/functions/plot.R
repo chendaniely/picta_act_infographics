@@ -173,7 +173,7 @@ geom_score_arrows <- function(base_g,
   
   if (!is.na(previous_act)) {
     # if there is a previous act value
-    print("adding previous act marker")
+    #print("adding previous act marker")
     previous_today_arrow <- today_arrow +
       geom_previous_score_arrow(aes(x = x_breaks[previous_act],
                                     y = previous_arrow_ystart,
@@ -188,7 +188,7 @@ geom_score_arrows <- function(base_g,
                                previous_date = previous_date)
     
     if (today_act - previous_act > 0) {
-      print("adding right arrow")
+      #print("adding right arrow")
       # previous greater than now, arrow point right
       previous_today_arrow <- previous_today_arrow + geom_diff_arrow_pos_right(
         aes(x = x_breaks[previous_act] + diff_arrow_spacing_x,

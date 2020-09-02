@@ -88,16 +88,17 @@ server <- function(input, output, session) {
       pdf_single_filename()
     },
     content = function(file) {
-      out = knitr::knit2pdf(input = PT_INFO()$act_rnw_f,
-                            #output = glue::glue("{input$name}-{input$today_date}.tex"),
-                            clean = TRUE,
-                            #quiet = TRUE,
-                            compiler = "xelatex")
-      if (fs::file_exists("act-pamphlet_interrior-english.log")) {fs::file_delete("act-pamphlet_interrior-english.log")}
-      if (fs::file_exists("act-pamphlet_interrior-english.tex")) {fs::file_delete("act-pamphlet_interrior-english.tex")}
-      if (fs::file_exists("act-pamphlet_interrior-spanish.log")) {fs::file_delete("act-pamphlet_interrior-spanish.log")}
-      if (fs::file_exists("act-pamphlet_interrior-spanish.tex")) {fs::file_delete("act-pamphlet_interrior-spanish.tex")}
-      
+      withProgress(message = "Generating PDF", {
+        out = knitr::knit2pdf(input = PT_INFO()$act_rnw_f,
+                              #output = glue::glue("{input$name}-{input$today_date}.tex"),
+                              clean = TRUE,
+                              #quiet = TRUE,
+                              compiler = "xelatex")
+        #if (fs::file_exists("act-pamphlet_interrior-english.log")) {fs::file_delete("act-pamphlet_interrior-english.log")}
+        #if (fs::file_exists("act-pamphlet_interrior-english.tex")) {fs::file_delete("act-pamphlet_interrior-english.tex")}
+        #if (fs::file_exists("act-pamphlet_interrior-spanish.log")) {fs::file_delete("act-pamphlet_interrior-spanish.log")}
+        #if (fs::file_exists("act-pamphlet_interrior-spanish.tex")) {fs::file_delete("act-pamphlet_interrior-spanish.tex")}
+      })
       file.rename(out, file) # move pdf to file for downloading
     },
     contentType = 'application/pdf'
