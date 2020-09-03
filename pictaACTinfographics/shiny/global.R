@@ -4,6 +4,13 @@ library(ggplot2)
 library(shiny)
 library(readr)
 library(DT)
+library(zip)
+library(stringr)
+library(purrr)
+library(knitr)
+library(glue)
+library(tinytex)
+library(png)
 
 purrr::walk(fs::dir_ls('functions'), function(x){print(x); source(x)})
 

@@ -21,5 +21,6 @@ install.packages(
       'dplyr',
       'purrr',
       'janitor',
-      'shinycssloaders'
+      'shinycssloaders',
+      'zip'
   ), repo = 'https://cloud.r-project.org/')

@@ -10,5 +10,10 @@ is_row_valid <- function(data_row) {
   if (!data_row[['today_act_score']] %in% 5:25) {return(FALSE)}
   if (!data_row[['previous_act_score']] %in% 5:25) {return(FALSE)}
   
+  # make sure display name contains letters
+  # unicode characters
+  # https://stackoverflow.com/questions/2385701/regular-expression-for-first-and-last-name
+  if (!stringr::str_detect(data_row[['display_name']], "^[\\p{L}'][ \\p{L}'-]*[\\p{L}]$")) {return(FALSE)}
+  
   return(TRUE)
 }
