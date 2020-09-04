@@ -2,13 +2,30 @@
 
 ## Setup
 
-1. Open the `00-install.R` script
-2. Select all the code and run it with CTRL+ENTER
+1. Open the `00-install/01-install_rpkgs.R` script
+2. Select all the code and run it with CTRL+ENTER (or click the source button in RStudio)
+3. Repeat the process for the `00-install/02-install_tinytex.R` script
 
 ## Run
 
-1. Open the `.Rproj` file in "pictaACTinfographics", it should launch RStudio brower and you should see `pictaACTinfographics` in the top right corner
-2. In the `Files` pane, click and open the `01-runApp.R` script
-3. There should be only one line of code in the script that begins with `shiny::runApp`
-4. Select all the code (CTRL+A) and run it with CTRL+ENTER
-5. A browser should open up
+Once the install scripts are run. you can:
+
+1. go into rstudio and go to the top right corner
+2. click the Project dropdown
+3. go to Open Project
+4. Navigate to the picta_act_infographics/pictaACTinfographics folder
+5. You should see a pictaACTinfographics.Rproj file
+6. Select that project file and click Open
+
+7. The files panel in Rstudio should open to that folder
+8. Navigate to the "shiny" folder
+9. Open either the global.R server.R or ui.R (they all should do the same thing)
+10. On the top you should see a Run App button with a drop-down
+11. Click the arrow, and make sure the "Run External" is selected (this will open the app in a browser instead of within rstudio)
+12. then click Run App and the app should launch.
+
+Once you open and launch the project file in step 6, you can also run the shiny runApp command in the "Console" (make sure you don't type it in the "Terminal"):
+
+`shiny::runApp('shiny', launch.browser = TRUE)`
+
+13. A browser should open up
