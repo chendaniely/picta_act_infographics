@@ -29,3 +29,7 @@ Once you open and launch the project file in step 6, you can also run the shiny 
 `shiny::runApp('shiny', launch.browser = TRUE)`
 
 13. A browser should open up
+
+
+Similarily, on Windows, if you have R version 4.0.2 installed in the standard Program Files location, you should also be able to double click the `runApp.bat` file.
+You can edit this file in Rstudio (or any other text editor) if your version of R changes or is different.
