@@ -77,7 +77,14 @@ dashboardPage(
               ),
               fluidRow(
                 box(width = 12,
-                    title = "Data read",
+                    title = "Good data",
+                    status = 'success',
+                    DT::DTOutput('table_good')
+                )
+              ),
+              fluidRow(
+                box(width = 12,
+                    title = "Full Dataset",
                     DT::DTOutput('table')
                 )
               )
