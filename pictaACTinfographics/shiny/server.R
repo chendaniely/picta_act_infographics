@@ -114,8 +114,14 @@ server <- function(input, output, session) {
       batch_df <- readr::read_csv(input_file()$datapath)
       problem_rows <- readr::problems(batch_df)$row
       
-      batch_df$is_valid <- apply(batch_df, MARGIN = 1, FUN = is_row_valid)
+      valid_reason <- apply(batch_df, MARGIN = 1, FUN = is_row_valid)
+      valid_reason_t <- purrr::transpose(valid_reason)
+      
+      batch_df$is_valid <- valid_reason_t$bool
+      batch_df$reason <- valid_reason_t$reason
+      
       batch_df$is_valid[problem_rows] <- FALSE
+      batch_df$reason[problem_rows] <- "readr error"
 
       print(batch_df)
       return(batch_df)
