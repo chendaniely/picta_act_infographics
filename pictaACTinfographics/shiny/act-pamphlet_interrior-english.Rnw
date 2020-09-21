@@ -51,7 +51,7 @@ PT_VALUES_ASTHMA <- PT_INFO()
 \begin{figure}[h!b]
     \begin{center}
     % trim = left bottom right top
-    \includegraphics[trim=0 70 0 120, clip, width=.9\textwidth]{\Sexpr{plot_pth_unix()}}
+    \includegraphics[trim=0 70 0 120, clip, width=.85\textwidth]{\Sexpr{plot_pth_unix()}}
     \end{center}
 \end{figure}
 
