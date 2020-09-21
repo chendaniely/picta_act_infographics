@@ -55,7 +55,7 @@ server <- function(input, output, session) {
     arrow_g <- geom_score_arrows(base_g = base_g,
                                  today_act = PT_INFO()$today_act,
                                  previous_act = PT_INFO()$previous_act,
-                                 previous_date = PT_INFO()$previous_date,
+                                 previous_date = PT_INFO()$previous_date_text,
                                  language = PT_INFO()$language,
                                  x_breaks = arrow_x_all())
     return(arrow_g)
@@ -226,7 +226,7 @@ server <- function(input, output, session) {
     return(e)
   }
   
-  gen_figure <- function(language, png_url, today_act, previous_act, previous_date) {
+  gen_figure <- function(language, png_url, today_act, previous_act, previous_date_text) {
     
     arrow_x_all <- gen_x_coords(language)
     
@@ -238,7 +238,7 @@ server <- function(input, output, session) {
     arrow_g <- geom_score_arrows(base_g = base_g,
                                  today_act = today_act,
                                  previous_act = previous_act,
-                                 previous_date = previous_date,
+                                 previous_date = previous_date_text,
                                  language = language,
                                  x_breaks = arrow_x_all)
     return(arrow_g)
@@ -257,7 +257,7 @@ server <- function(input, output, session) {
                          png_url = row_pt_info$png_url,
                          today_act = row_pt_info$today_act,
                          previous_act = row_pt_info$previous_act,
-                         previous_date = row_pt_info$previous_date)
+                         previous_date_text = row_pt_info$previous_date_text)
    print(glue::glue("Saving figure to: {knit_env$plot_pth_norm}"))
    ggplot2::ggsave(filename = knit_env$plot_pth_norm,
                    plot = arrow_g,
