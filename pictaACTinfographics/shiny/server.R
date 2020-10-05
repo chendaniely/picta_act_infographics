@@ -67,7 +67,8 @@ server <- function(input, output, session) {
 
     ggplot2::ggsave(filename =  outfile,
                     plot = arrow_g(),
-                    width = 11, height = 8.5)
+                    scale = 1,
+                    width = 11, height = 8.5, units = "in", dpi = 300)
 
     list(src = outfile,
          contentType = 'image/png',

@@ -12,6 +12,7 @@
 \setmainfont{Arial}[Scale = 1.0]
 
 \usepackage{graphicx}
+\usepackage{adjustbox}
 
 \graphicspath{{graphical_elements_act/}{www/graphical_elements_act}}
 
@@ -51,7 +52,8 @@ PT_VALUES_ASTHMA <- PT_INFO()
 \begin{figure}[h!b]
     \begin{center}
     % trim = left bottom right top
-    \includegraphics[trim=0 70 0 120, clip, width=.85\textwidth]{\Sexpr{plot_pth_unix()}}
+    \adjustbox{trim=0 {.18\height} 0 {.20\height},clip}%
+  {\includegraphics[width=\textwidth]{\Sexpr{plot_pth_unix()}}}
     \end{center}
 \end{figure}
 
