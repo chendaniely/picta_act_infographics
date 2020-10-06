@@ -116,7 +116,7 @@ gen_pdf_from_single_row <- function(row_dat, pdf_dir) {
   
   #print(row_pt_info)
   
-  browser()
+  #browser()
   
   knitr::knit2pdf(input = row_pt_info$act_rnw_f,
                   output = tex_path,
