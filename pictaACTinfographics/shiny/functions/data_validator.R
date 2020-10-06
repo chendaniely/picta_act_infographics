@@ -77,7 +77,7 @@ is_row_valid <- function(data_row) {
   # make sure display name contains letters
   # unicode characters
   # https://stackoverflow.com/questions/2385701/regular-expression-for-first-and-last-name
-  if (!stringr::str_detect(data_row[['display_name']], "^[\\p{L}'][ \\p{L}'-]*[\\p{L}]$")) {
+  if (!stringr::str_detect(data_row[['display_name']], "^[\\p{N}\\p{L}'-]*$")) {
     #print(data_row)
     #print("name unicode error")
     return(list(bool = FALSE,
