@@ -47,6 +47,8 @@ empty_batch_df <- data.frame(id_file = NA,
                              previous_date = NA,
                              previous_act_score = NA)
 
-xl_df <- read_batch_file_excel("~/../Desktop/picta_act_infographics/example_batch_file_separate_dates.xlsx")
+xl_df <- read_batch_file_excel("~/../Desktop/picta_act_infographics/example_batch_file_separate_dates_spanish.xlsx")
 batch_df <- validate_batch_file(xl_df)
 batch_df
+
+gen_pdf_from_df(batch_df)
