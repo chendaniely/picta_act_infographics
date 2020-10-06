@@ -25,6 +25,7 @@ score_today_text_label_y = 31.5
 
 previous_score_arrow_y1 = 25
 previous_score_arrow_y2 = 41.5
+previous_score_arrow_y2_same = 29
 previous_score_arrow_size = 1.0
 previous_score_arrow_length_unit = 0.25
 previous_score_today_numb_label_y = 22
