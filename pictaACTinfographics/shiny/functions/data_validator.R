@@ -1,3 +1,5 @@
+library(stringr)
+
 is_row_valid <- function(data_row) {
   # re-cast as numeric since single digits seems to have a leading space in them
   data_row[['today_act_score']] <- as.numeric(data_row[['today_act_score']])
@@ -13,6 +15,28 @@ is_row_valid <- function(data_row) {
     return(list(bool = FALSE,
                 reason = "invalid language")
            )
+  }
+  
+  if (
+    (!is.na(data_row[['today_year']]) |
+       !is.na(data_row[['today_month']]) |
+       !is.na(data_row[['today_day']])
+     ) &
+      (is.na(data_row[['today_date']]))
+    ) {
+    return(list(bool = FALSE,
+                reason = "Invalid today date"))
+  }
+
+  if (
+    (!is.na(data_row[['previous_year']]) |
+     !is.na(data_row[['previous_month']]) |
+     !is.na(data_row[['previous_day']])
+    ) &
+    (is.na(data_row[['previous_date']]))
+  ) {
+    return(list(bool = FALSE,
+                reason = "Invalid previous date"))
   }
   
   if (is.na(data_row[['today_date']])) {
