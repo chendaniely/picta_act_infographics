@@ -12,6 +12,7 @@
 \setmainfont{Arial}[Scale = 1.0]
 
 \usepackage{graphicx}
+\usepackage{adjustbox}
 
 \graphicspath{{graphical_elements_act/}{www/graphical_elements_act}}
 
@@ -32,7 +33,7 @@ library(extrafont)
 <<>>=
 
 PT_VALUES_ASTHMA <- PT_INFO()
-# PT_VALUES_ASTHMA
+#PT_VALUES_ASTHMA
 @
 
 \noindent\fontsize{12}{12}\selectfont \textbf{DEL CONTROL DEL ASMA DE \Sexpr{stringr::str_to_upper(PT_VALUES_ASTHMA$display_name)}}
@@ -43,19 +44,23 @@ PT_VALUES_ASTHMA <- PT_INFO()
 
 % score statement
 \vspace{24pt}
-\noindent\hspace{0.75in}\noindent\fontsize{22}{22}\selectfont \Sexpr{PT_VALUES_ASTHMA$asthma_score_statement}
+\noindent\hspace{0.75in}\noindent\fontsize{22}{22}\selectfont
+\Sexpr{PT_VALUES_ASTHMA$asthma_score_statement}
 
 % progress statement
-\noindent\hspace{0.75in}\noindent\fontsize{22}{22}\selectfont \Sexpr{PT_VALUES_ASTHMA$asthma_progress_statment}
+\noindent\hspace{0.75in}\noindent\fontsize{22}{22}\selectfont
+\Sexpr{PT_VALUES_ASTHMA$asthma_progress_statment}
 
 \begin{figure}[h!b]
     \begin{center}
     % trim = left bottom right top
-    \includegraphics[trim=0 70 0 120, clip, width=.85\textwidth]{\Sexpr{plot_pth_unix()}}
+    \adjustbox{trim=0 {.18\height} 0 {.20\height},clip}
+    {\includegraphics[width=\textwidth]{\Sexpr{plot_pth_unix()}}}
     \end{center}
 \end{figure}
 
-\vfill \hfill \noindent\fontsize{14}{14}\selectfont \Sexpr{PT_VALUES_ASTHMA$today_date_text}
+\vfill \hfill \noindent\fontsize{14}{14}\selectfont
+\Sexpr{PT_VALUES_ASTHMA$today_date_text}
 
 \newpage
 
@@ -65,7 +70,6 @@ PT_VALUES_ASTHMA <- PT_INFO()
     \includegraphics[width=\textwidth]{\Sexpr{fig_pth_act_exterior()}}
     \end{center}
 \end{figure}
-
 
 
 \end{document}
