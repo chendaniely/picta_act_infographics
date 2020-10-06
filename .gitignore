@@ -3,3 +3,5 @@ Rscript.exe*
 .Rhistory
 .RData
 .Ruserdata
+
+.DS_Store
