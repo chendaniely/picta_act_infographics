@@ -11,15 +11,15 @@ gen_asthma_date_blob <- function(date, language) {
 gen_asthma_interpretive_statement_blob <- function(today_act_score, language) {
   if (today_act_score %in% 5:15) {
     if (language == "spanish") {
-      return("Su asma está muy mal controlada")
     } else {
       return("Your asthma is very poorly controlled")
+      return("Su asma está muy mal controlada")
     }
   } else if (today_act_score %in% 16:19) {
     if (language == "spanish") {
-      return("Su asma está mal controlada")
     } else {
       return("Your asthma is not well controlled")
+      return("Su asma está mal controlada")
     }
   } else if (today_act_score %in% 20:25) {
     if (language == "spanish") {

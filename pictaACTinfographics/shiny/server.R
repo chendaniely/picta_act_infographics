@@ -67,7 +67,8 @@ server <- function(input, output, session) {
 
     ggplot2::ggsave(filename =  outfile,
                     plot = arrow_g(),
-                    width = 11, height = 8.5)
+                    scale = 1,
+                    width = 11, height = 8.5, units = "in", dpi = 300)
 
     list(src = outfile,
          contentType = 'image/png',
@@ -111,17 +112,18 @@ server <- function(input, output, session) {
  
   input_file_df <- reactive({
     if (!is.null(input_file())) {
-      batch_df <- readr::read_csv(input_file()$datapath)
-      problem_rows <- readr::problems(batch_df)$row
+      batch_df <- read_batch_file_excel(input_file()$datapath)
       
-      valid_reason <- apply(batch_df, MARGIN = 1, FUN = is_row_valid)
-      valid_reason_t <- purrr::transpose(valid_reason)
+      #batch_df <- readr::read_csv()
+      #problem_rows <- readr::problems(batch_df)$row
       
-      batch_df$is_valid <- valid_reason_t$bool
-      batch_df$reason <- valid_reason_t$reason
+      # valid_reason <- apply(batch_df, MARGIN = 1, FUN = is_row_valid)
+      # valid_reason_t <- purrr::transpose(valid_reason)
+      # 
+      # batch_df$is_valid[problem_rows] <- FALSE
+      # batch_df$reason[problem_rows] <- "readr error"
       
-      batch_df$is_valid[problem_rows] <- FALSE
-      batch_df$reason[problem_rows] <- "readr error"
+      batch_df <- validate_batch_file(batch_df)
 
       print(batch_df)
       return(batch_df)
