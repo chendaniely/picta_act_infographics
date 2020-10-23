@@ -72,7 +72,12 @@ geom_previous_score_value <- function(x, y, previous_act_score, color = "#939598
   )
 }
 
-geom_previous_score_date <- function(x, y, language, previous_date, size = 4.5, color = "#939598") {
+geom_previous_score_date <- function(x, y, language, previous_date, text, size = 4.5, color = "#939598") {
+  if (text) {
+    display_text <- glue::glue("{ifelse(language == 'spanish', 'Última Visita','Last visit')}\n{previous_date}")
+  } else {
+    display_text <- glue::glue("{previous_date}")
+  }
   layer(
     geom = 'text',
     stat = "identity",
@@ -80,7 +85,7 @@ geom_previous_score_date <- function(x, y, language, previous_date, size = 4.5, 
     params = list(
       x = x,
       y = y,
-      label = glue::glue("{ifelse(language == 'spanish', 'Última Visita','Last visit')}\n{previous_date}"),
+      label = display_text,
       color = color,
       size = size
     )
@@ -100,18 +105,32 @@ geom_today_score_arrow <- function(mapping = NULL, arrow_length = score_arrow_le
                       linejoin = "round"))
 }
 
-geom_previous_score_arrow <- function(mapping = NULL, arrow_length = score_arrow_length_unit, arrow_size = previous_score_arrow_size, arrow_color = "#939598") {
-  layer(data = NULL,
-        mapping = mapping,
-        stat = "identity",
-        geom = GeomSegment, 
-        position = "identity",
-        params = list(arrow = arrow(length = unit(arrow_length, "cm")),
-                      size = arrow_size,
-                      color = arrow_color,
-                      arrow.fill = NULL, 
-                      lineend = "butt",
-                      linejoin = "round"))
+geom_previous_score_arrow <- function(mapping = NULL, arrow_length = score_arrow_length_unit, arrow_size = previous_score_arrow_size, arrow_color = "#939598", arrow_head = TRUE) {
+  if (!arrow_head) {
+    # when previous score and today score are the same, there is no arrow head
+    layer(data = NULL,
+          mapping = mapping,
+          stat = "identity",
+          geom = GeomSegment, 
+          position = "identity",
+          params = list(size = arrow_size,
+                        color = arrow_color,
+                        arrow.fill = NULL, 
+                        lineend = "butt",
+                        linejoin = "round"))
+  } else {
+    layer(data = NULL,
+          mapping = mapping,
+          stat = "identity",
+          geom = GeomSegment, 
+          position = "identity",
+          params = list(arrow = arrow(length = unit(arrow_length, "cm")),
+                        size = arrow_size,
+                        color = arrow_color,
+                        arrow.fill = NULL, 
+                        lineend = "butt",
+                        linejoin = "round"))
+  }
 }
 
 geom_diff_arrow_pos_right <- function(mapping = NULL, arrow_length = score_arrow_length_unit, arrow_size = previous_score_arrow_size, arrow_color = "#939598") {
@@ -154,6 +173,7 @@ geom_score_arrows <- function(base_g,
                               today_today_y = score_today_text_label_y,
                               previous_arrow_ystart = previous_score_arrow_y1,
                               previous_arrow_yend = previous_score_arrow_y2,
+                              previous_arrow_yend_same = previous_score_arrow_y2_same,
                               previous_value_y = previous_score_today_numb_label_y,
                               diff_arrow_spacing_x = diff_arrow_buffer_x,
                               diff_arrow_spacing_y = diff_arrow_buffer_y) {
@@ -174,19 +194,43 @@ geom_score_arrows <- function(base_g,
   if (!is.na(previous_act)) {
     # if there is a previous act value
     #print("adding previous act marker")
-    previous_today_arrow <- today_arrow +
-      geom_previous_score_arrow(aes(x = x_breaks[previous_act],
-                                    y = previous_arrow_ystart,
-                                    xend = x_breaks[previous_act],
-                                    yend = previous_arrow_yend)) +
-      geom_previous_score_value(x = x_breaks[previous_act],
-                                y = previous_value_y,
-                                previous_act_score = previous_act) +
-      geom_previous_score_date(x = x_breaks[previous_act],
-                               y = previous_score_today_text_label_y,
-                               language = language,
-                               previous_date = previous_date)
     
+    
+    if (previous_act == today_act) {
+      # if the values are the same truncate the previous arrow
+      previous_today_arrow <- today_arrow +
+        geom_previous_score_arrow(aes(x = x_breaks[previous_act],
+                                      y = previous_arrow_ystart,
+                                      xend = x_breaks[previous_act],
+                                      yend = previous_arrow_yend_same),
+                                  arrow_head = FALSE) +
+        geom_previous_score_value(x = x_breaks[previous_act],
+                                  y = previous_value_y,
+                                  previous_act_score = previous_act) +
+        geom_previous_score_date(x = x_breaks[previous_act],
+                                 y = previous_score_today_text_label_y,
+                                 language = language,
+                                 text = ifelse(previous_act == today_act, FALSE, TRUE),
+                                 previous_date = previous_date)
+      return(previous_today_arrow)
+      
+    } else {
+      # if values are not the same previous goes to the number line
+      previous_today_arrow <- today_arrow +
+        geom_previous_score_arrow(aes(x = x_breaks[previous_act],
+                                      y = previous_arrow_ystart,
+                                      xend = x_breaks[previous_act],
+                                      yend = previous_arrow_yend)) +
+        geom_previous_score_value(x = x_breaks[previous_act],
+                                  y = previous_value_y,
+                                  previous_act_score = previous_act) +
+        geom_previous_score_date(x = x_breaks[previous_act],
+                                 y = previous_score_today_text_label_y,
+                                 language = language,
+                                 text = ifelse(previous_act == today_act, FALSE, TRUE),
+                                 previous_date = previous_date)
+    }
+
     if (today_act - previous_act > 0) {
       #print("adding right arrow")
       # previous greater than now, arrow point right
@@ -197,7 +241,7 @@ geom_score_arrows <- function(base_g,
             yend = previous_arrow_yend - diff_arrow_spacing_y))
       
     } else if (today_act - previous_act < 0) {
-      print("adding left arrow")
+      #print("adding left arrow")
       # previous less than now, arrow point left
       previous_today_arrow <- previous_today_arrow + geom_diff_arrow_neg_left(
         aes(x = x_breaks[previous_act] - diff_arrow_spacing_x,
