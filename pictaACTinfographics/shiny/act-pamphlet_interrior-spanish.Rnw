@@ -36,7 +36,7 @@ PT_VALUES_ASTHMA <- PT_INFO()
 #PT_VALUES_ASTHMA
 @
 
-\noindent\fontsize{12}{12}\selectfont \textbf{NIVEL DEL CONTROL DEL ASMA DE \Sexpr{stringr::str_to_upper(PT_VALUES_ASTHMA$display_name)}}
+\noindent\fontsize{12}{12}\selectfont \textbf{NIVEL DEL CONTROL DE ASMA DE \Sexpr{stringr::str_to_upper(PT_VALUES_ASTHMA$display_name)}}
 
 % interpretive statement
 \vspace{36pt}
