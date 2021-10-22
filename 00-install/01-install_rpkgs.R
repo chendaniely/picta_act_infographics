@@ -22,5 +22,7 @@ install.packages(
       'purrr',
       'janitor',
       'shinycssloaders',
-      'zip'
+      'zip',
+      'renv',
+      'pak'
   ), repo = 'https://cloud.r-project.org/')
