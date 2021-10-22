@@ -74,7 +74,7 @@ geom_previous_score_value <- function(x, y, previous_act_score, color = "#939598
 
 geom_previous_score_date <- function(x, y, language, previous_date, text, size = 4.5, color = "#939598") {
   if (text) {
-    display_text <- glue::glue("{ifelse(language == 'spanish', 'Última Visita','Last visit')}\n{previous_date}")
+    display_text <- glue::glue("{ifelse(language == 'spanish', '\u00daltima Visita','Last visit')}\n{previous_date}")
   } else {
     display_text <- glue::glue("{previous_date}")
   }
