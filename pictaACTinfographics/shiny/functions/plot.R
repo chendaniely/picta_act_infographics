@@ -1,7 +1,7 @@
 gen_exterior_png_pth <- function(language) {
   eng_or_spa <- stringr::str_to_upper(ifelse(language == "english", "eng", "spa"))
   return(glue::glue(
-    "./www/graphical_elements_act/ACT exterior {eng_or_spa}.png"
+    "./www/graphical_elements_act/PICTA new ACT exterior {eng_or_spa}.png"
   ))
 }
 
