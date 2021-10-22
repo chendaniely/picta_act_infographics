@@ -1,3 +1,6 @@
+if this page renders the accent characters weird
+in rstudio go to file > reopen with encoding > delect UTF-8
+
 á \u00e1
 é \u00e9
 í \u00ed
