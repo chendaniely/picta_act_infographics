@@ -1,3 +1,8 @@
+# Project is Archived
+
+Please see: https://github.com/chendaniely/bitsi
+
+
 # PICTA ACT Infographics
 
 ## Setup
